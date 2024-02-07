@@ -36,8 +36,8 @@ for(let i = s.indexOf(0);i< s.indexOf('@');i = i + 1){
     s[i] = '*';
 }
 let results = "";
-for(let j = 0 ; j< s.length ; j++){
-results += s[j];
+for(const element of s){
+results += element;
 }
 loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
 
