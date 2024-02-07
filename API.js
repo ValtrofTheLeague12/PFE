@@ -58,7 +58,7 @@ app.post('/API1',(req,res) =>{
             res.json(to_be_sended);
         }else{
 
-            const to_be_sended = {
+                 const to_be_sended = {
                  "CodeR":0,
                  "Message":"No Citizen Was Found With this ID...",
                  "idSocial":null,
@@ -85,6 +85,7 @@ app.post('/API1',(req,res) =>{
         }
     })
 })
+// Same Type of Return But Not The Same Params
 app.post('/API2',(req,res) =>{
   DATABASE.SEARCH_CITIZEN_API2(req.body,(err,results) =>{
     if(err){
