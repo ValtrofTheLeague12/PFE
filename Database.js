@@ -1,0 +1,83 @@
+const pg = require('pg');
+const security = require('./Encryption');
+const logs = require('./Loggers');
+const {QUERY} = require('./Query');
+
+const connection = new pg.Client({
+    host:"localhost",
+    user:"postgres",
+    password:"meowmeow12",
+    database:"PFE"
+
+})
+connection.connect();
+
+function PRINT_ACCOUNTS_DATABASE(callback){
+connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
+    if(err){
+        callback(err,null); //chat gpt function
+        logs.failedlogs.error("Something went Wrong : "+err);
+    }
+        callback(null,data.rows); // chat gpt function
+        logs.logs.info("Data Selected From Database !!!");
+
+});
+}
+function INSERT_ACCOUNTS_NEW_RECORD(input){
+        console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email)
+        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,20),input.name,input.lastname,input.Username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.cin],(err =>{
+        if(err) {console.log("Something Went Wrong : "+err);logs.failedlogs.error(err)};
+        console.log("inserted !!!");
+        logs.logs.info("Success !!! new User has Been Inserted !!!");
+    }));
+}
+
+function FIND_USER_CREDENTIALS(Username,Password,callback){
+    let RESULTS ;
+    connection.query(QUERY.LOGIN_QUERY,[Username,Password],(err,data) =>{
+        if(err){console.log(err);
+        logs.failedlogs.error("Something Went Wrong : "+err);
+         callback(err,RESULTS);
+         }else{
+         logs.logs.info("Success !!! Data from Credentials Table Has been Selected !!!");
+         RESULTS = data.rows;
+         callback(null,RESULTS);
+        }
+    });
+}
+function SEARCH_CITIZEN_API1(cin,callback){
+    connection.query(QUERY.API1_QUERY,[cin],(err,results) =>{
+        if(err){
+            callback(err,null);
+            logs.failedlogs.error("Something Went Wrong !!! : "+err);
+        }else{
+            callback(null,results);
+            logs.logs.info("Sucess !!! Data Selected From First API");
+        }
+    })
+ 
+}
+function SEARCH_CITIZEN_API2(input,callback){
+   connection.query(QUERY.API2_QUERY,[input.name,input.lastname,input.fathername,input.mothername],(err,data) =>{
+    if(err){
+        callback(err,null);
+        logs.failedlogs.error(err);
+    }else{
+         callback(null,data);
+         logs.logs.info("Sucess Data Selected !!! From API2 ");
+    }
+   })
+
+}
+
+
+
+module.exports = {
+    FIND_USER_CREDENTIALS,
+    INSERT_ACCOUNTS_NEW_RECORD,
+    PRINT_ACCOUNTS_DATABASE,
+    SEARCH_CITIZEN_API1,
+    SEARCH_CITIZEN_API2
+}
+
+

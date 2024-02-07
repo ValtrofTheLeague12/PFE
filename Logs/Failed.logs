@@ -1,0 +1,28 @@
+{"level":"error","message":"Something went wrong !!! : Error: ER_BAD_DB_ERROR: Unknown database 'cityones'"}
+{"level":"error","message":"Something went wrong !!! : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`name` = 'Yassine', `Lastname` = 'l', `phone_number` = '123', `CIN` = '123', ...' at line 1"}
+{"level":"error","message":"Something went wrong !!! : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SET `name` = 'Yassine', `Lastname` = 'l', `phone_number` = '123', `CIN` = '12...' at line 1"}
+{"level":"error","message":"Something went wrong !!! : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SET `nom` = 'Yassine', `prenom` = 'l', `telephone` = '123', `cin` = '123', `S...' at line 1"}
+{"level":"error","message":"Something went wrong !!! : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SET `nom` = 'Yassine', `prenom` = 'l', `telephone` = '123', `cin` = '123', `S...' at line 1"}
+{"level":"error","message":"Something went wrong !!! : Error: ER_BAD_FIELD_ERROR: Unknown column 'Social_id' in 'field list'"}
+{"level":"error","message":"Something went wrong !!! : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`nom` = 'Yassine', `prenom` = 'l', `telephone` = '123', `cin` = '123', `Socia...' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"error has occured in Searching Database : Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?' at line 1"}
+{"level":"error","message":"Something Went Wrong : error: la colonne « username » n'existe pas"}
+{"level":"error","message":"Something Went Wrong : error: entrée manquante de la clause FROM pour la table « credentials »"}
+{"level":"error","message":"Something Went Wrong : Error: Cannot use a pool after calling end on the pool"}
+{"level":"error","message":"Something Went Wrong : Error: Client was closed and is not queryable"}
+{"code":"42703","file":"parse_target.c","length":141,"level":"error","line":"1057","name":"error","position":"79","routine":"checkInsertTargets","severity":"ERREUR"}
+{"level":"error","message":null}
+{"level":"error","message":null}
+{"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
+{"level":"error","message":"Something Went Wrong !!! : error: la colonne « id_social » n'existe pas"}
+{"level":"error","message":"Something Went Wrong !!! : error: la colonne « id_social » n'existe pas"}
+{"level":"error","message":"Something Went Wrong !!! : error: la colonne « idsocial » n'existe pas"}
+{"code":"42703","file":"parse_relation.c","length":120,"level":"error","line":"3718","name":"error","position":"379","routine":"errorMissingColumn","severity":"ERREUR"}
+{"code":"42703","file":"parse_relation.c","length":120,"level":"error","line":"3718","name":"error","position":"379","routine":"errorMissingColumn","severity":"ERREUR"}
