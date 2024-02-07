@@ -26,3 +26,6 @@
 {"level":"error","message":"Something Went Wrong !!! : error: la colonne « idsocial » n'existe pas"}
 {"code":"42703","file":"parse_relation.c","length":120,"level":"error","line":"3718","name":"error","position":"379","routine":"errorMissingColumn","severity":"ERREUR"}
 {"code":"42703","file":"parse_relation.c","length":120,"level":"error","line":"3718","name":"error","position":"379","routine":"errorMissingColumn","severity":"ERREUR"}
+{"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
+{"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
+{"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
