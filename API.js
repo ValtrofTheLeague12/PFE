@@ -57,7 +57,6 @@ app.post('/API1',(req,res) =>{
             }
             res.json(to_be_sended);
         }else{
-
                  const to_be_sended = {
                  "CodeR":0,
                  "Message":"No Citizen Was Found With this ID...",
@@ -91,11 +90,10 @@ app.post('/API2',(req,res) =>{
     if(err){
         res.json(err);
         console.log(err);
-    }else { 
-        
-            let gender = results.rows[0].genre == "Male" ? 1:0;
-            let date = new Date(results.rows[0].date_naissance);
-            const to_be_sended = {
+    }else if(results.rows.length != 0){  
+              let gender = results.rows[0].genre == "Male" ? 1:0;
+              let date = new Date(results.rows[0].date_naissance);
+              const to_be_sended = {
                  "CodeR":1,
                  "Message":"Sucess !!!",
                  "idSocial":results.rows[0].idsocial,
@@ -118,6 +116,31 @@ app.post('/API2',(req,res) =>{
                  "dateDecesAct": results.rows[0].dateDecesAct, 
                  "dateDecesMention": results.rows[0].dateDecesMention 
             }
+        res.json(to_be_sended);
+    }else{
+            const to_be_sended = {
+            "CodeR":0,
+            "Message":"No Citizen Was Found With this Cordinates...",
+            "idSocial":null,
+            "prenom":null,
+            "nom":null,
+            "genre":null,
+            "jourNaissance":null,
+            "moisNaissance":null,
+            "YearNaissance":null,
+            "communeCode": null, 
+            "communeLib":  null,
+            "consulatCode": null,
+            "consulatLib": null,
+            "chainePere": null,
+            "chaineMere": null,
+            "nationalitePereCode":null,
+            "nationalitePereLib":null,
+            "nationaliteMereCode":null,
+            "nationaliteMereLib": null,
+            "dateDecesAct": null, 
+            "dateDecesMention": null
+       }
         res.json(to_be_sended);
     }
   })})
