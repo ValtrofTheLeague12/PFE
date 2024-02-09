@@ -1,0 +1,43 @@
+POST http://localhost:2020/Login 
+Content-Type: application/json
+
+{
+    "login":"123haha",
+    "pass":"8c10bf82e762a"
+}
+####
+POST http://localhost:2020/Subscription
+Content-Type: application/json
+
+{
+    "name":"Yassuo",
+    "lastname":"KingValtr",
+    "Password":"123456",
+    "Username":"Sneeko",
+    "Email":"123@gmail.com",
+    "cin":"12345678"
+}
+####
+POST http://localhost:2020/API1
+Content-Type: application/json
+
+{
+    "cin":26307178
+}
+###
+POST http://localhost:2020/API2
+Content-Type: application/json
+
+{
+    "name":"Dani",
+    "lastname":"O'Currigan",
+    "fathername":"Bryce",
+    "mothername":"Kaitlin"
+}
+###
+POST http://localhost:2020/MDB
+Content-Type: application/json
+{
+    "NP":"Yassuo123",
+     "UUID":"2d977378-dd88-44ce-99bc-ecc2e1a88049"
+}

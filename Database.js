@@ -67,17 +67,27 @@ function SEARCH_CITIZEN_API2(input,callback){
          logs.logs.info("Sucess Data Selected !!! From API2 ");
     }
    })
-
 }
-
-
+function MODIFY_DATABASE_CREDENTIALS(input,callback){
+    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD,[input.NP,input.UUID],(err) =>{
+      if(err){
+        logs.failedlogs.error(err);
+        callback(err,null);
+      }else{
+        let Message = `Password Updated for User with UUID : ${input.UUID}`
+        logs.logs.info(Message);
+        callback(null,Message);
+      }
+    })
+}
 
 module.exports = {
     FIND_USER_CREDENTIALS,
     INSERT_ACCOUNTS_NEW_RECORD,
     PRINT_ACCOUNTS_DATABASE,
     SEARCH_CITIZEN_API1,
-    SEARCH_CITIZEN_API2
+    SEARCH_CITIZEN_API2,
+    MODIFY_DATABASE_CREDENTIALS
 }
 
 

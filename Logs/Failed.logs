@@ -29,3 +29,10 @@
 {"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
 {"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
 {"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
+{"code":"42601","file":"scan.l","length":109,"level":"error","line":"1245","name":"error","position":"41","routine":"scanner_yyerror","severity":"ERREUR"}
+{"code":"42601","file":"scan.l","length":109,"level":"error","line":"1245","name":"error","position":"41","routine":"scanner_yyerror","severity":"ERREUR"}
+{"code":"42601","file":"scan.l","length":109,"level":"error","line":"1245","name":"error","position":"41","routine":"scanner_yyerror","severity":"ERREUR"}
+{"code":"42601","file":"scan.l","length":109,"level":"error","line":"1245","name":"error","position":"41","routine":"scanner_yyerror","severity":"ERREUR"}
+{"code":"42601","file":"scan.l","length":109,"level":"error","line":"1245","name":"error","position":"41","routine":"scanner_yyerror","severity":"ERREUR"}
+{"code":"42601","file":"scan.l","length":109,"level":"error","line":"1245","name":"error","position":"41","routine":"scanner_yyerror","severity":"ERREUR"}
+{"code":"42703","file":"analyze.c","length":148,"level":"error","line":"2521","name":"error","position":"26","routine":"transformUpdateTargetList","severity":"ERREUR"}

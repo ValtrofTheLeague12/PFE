@@ -24,6 +24,17 @@ app.post("/Login",(req, res) => {
 
 })
 
+app.post('/MDB',(req,res) => {
+  DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,data) =>{
+    if(err){
+        console.log(err);
+        res.json(err);
+    }else{
+        console.log(data)
+        res.json(data);
+    }
+  })
+})
 app.post('/API1',(req,res) =>{
     DATABASE.SEARCH_CITIZEN_API1(req.body.cin,(err,results) =>{
         if(err){
