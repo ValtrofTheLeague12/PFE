@@ -33,15 +33,13 @@ function INSERT_ACCOUNTS_NEW_RECORD(input){
 }
 
 function FIND_USER_CREDENTIALS(Username,Password,callback){
-    let RESULTS ;
     connection.query(QUERY.LOGIN_QUERY,[Username,Password],(err,data) =>{
         if(err){console.log(err);
         logs.failedlogs.error("Something Went Wrong : "+err);
-         callback(err,RESULTS);
+         callback(err,null);
          }else{
          logs.logs.info("Success !!! Data from Credentials Table Has been Selected !!!");
-         RESULTS = data.rows;
-         callback(null,RESULTS);
+         callback(null,data.rows);
         }
     });
 }
@@ -81,13 +79,26 @@ function MODIFY_DATABASE_CREDENTIALS(input,callback){
     })
 }
 
+function SELECT_DATA_FROM_UUID(input,callback){
+    connection.query(QUERY.SELECT_USER_FROM_UUID,[input],(err,data) =>{
+        if(err){
+            logs.failedlogs.error(err);
+            callback(err,null);
+        }else{
+            logs.logs.info("Sucess !!! Selected Data With UUID");
+            callback(null,data);
+        }
+    });
+}
+
 module.exports = {
     FIND_USER_CREDENTIALS,
     INSERT_ACCOUNTS_NEW_RECORD,
     PRINT_ACCOUNTS_DATABASE,
     SEARCH_CITIZEN_API1,
     SEARCH_CITIZEN_API2,
-    MODIFY_DATABASE_CREDENTIALS
+    MODIFY_DATABASE_CREDENTIALS,
+    SELECT_DATA_FROM_UUID
 }
 
 

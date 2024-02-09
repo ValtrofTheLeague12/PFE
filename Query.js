@@ -1,8 +1,9 @@
 const QUERY = {
-    SELECT_API_ALL_RECORDS:"SELECT * FROM CIT",
+    SELECT_API_ALL_RECORDS:`SELECT * FROM "citoyens"`,
     SELECT_CREDENTIALS_ALL_RECORDS:`SELECT * FROM "Credentials"`,
     INSERT_CREDENTIALS_NEW_RECORDS:`INSERT INTO "Credentials"("UUID","Nom","Prenom","Username","Password","Email") VALUES ($1,$2,$3,$4,$5,$6)`,
     UPDATE_CREDENTIALS_RESET_PASSWORD:'UPDATE "Credentials" SET "Password" = $1 WHERE "UUID" = $2',
+    SELECT_USER_FROM_UUID:`SELECT * FROM "Credentials" WHERE "UUID" = $1`,
     LOGIN_QUERY:`SELECT * FROM "Credentials" WHERE "Username" = $1 AND "Password" = $2`,
     API1_QUERY:`SELECT "idsocial","prenom",
     "nom","genre"

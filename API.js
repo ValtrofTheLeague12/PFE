@@ -2,11 +2,25 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const file_system = require('fs');
 const DATABASE =require('./Database');
+const Emailer = require('./Mailer');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.post("/EMAIL",(req,res) =>{
+     DATABASE.SELECT_DATA_FROM_UUID(req.body.UUID,(err,data) =>{
+        if(err){
+            res.json(err);
+            console.log(err);
+        }else if(data.rows.length <= 0){
+            res.json({"Rows":data.rows.length,"Message":"User not Found !!!"});
+        }else{
+            Emailer.SEND_EMAIL(data.rows[0].Email);
+            res.json({"Message":"Sucess !!!"});
+        }
+     })
+})
 //INSERT AN ACCOUNT IN DATABASE
 app.post('/Subscription',(req, res) => {
     DATABASE.INSERT_ACCOUNTS_NEW_RECORD(req.body);
@@ -21,7 +35,6 @@ app.post("/Login",(req, res) => {
         res.json(results);
     }
  });
-
 })
 
 app.post('/MDB',(req,res) => {
@@ -41,9 +54,9 @@ app.post('/API1',(req,res) =>{
             res.json(err);
             console.log(err);
         }else if(results.rows.length != 0){
-            let gender = results.rows[0].genre == "Male" ? 1:0;
-            let date = new Date(results.rows[0].date_naissance);
-            const to_be_sended = {
+                let gender = results.rows[0].genre == "Male" ? 1:0;
+                let date = new Date(results.rows[0].date_naissance);
+                 const to_be_sended = {
                  "CodeR":1,
                  "Message":"Sucess !!!",
                  "idSocial":results.rows[0].idsocial,

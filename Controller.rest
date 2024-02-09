@@ -37,7 +37,16 @@ Content-Type: application/json
 ###
 POST http://localhost:2020/MDB
 Content-Type: application/json
+
 {
-    "NP":"Yassuo123",
+     "NP":"Yassuo123",
      "UUID":"2d977378-dd88-44ce-99bc-ecc2e1a88049"
+}
+###
+
+POST http://localhost:2020/Email
+Content-Type: application/json
+
+{
+  "UUID":"14a8ab09-3a76-49c2-8227-47ec7b946839"
 }
