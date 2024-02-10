@@ -1,11 +1,11 @@
-require('dotenv').config({path:"config/Mailer.env"});
+require('dotenv').config({path:".config/Mailer.env"});
 const Mailer = require('nodemailer');
 const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
 const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
 function SEND_RESET_EMAIL(emailAddress,callback){
-    
+
     const Output = `
     Secret Code : ${KEY}
     <h1>Note : </h1>

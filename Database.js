@@ -1,18 +1,19 @@
 
-require('dotenv').config({path:"config/Database.env"});
+require('dotenv').config({path:".config/Database.env"});
 const pg = require('pg');
 const security = require('./Encryption');
 const logs = require('./Loggers');
 const {QUERY} = require('./Query');
 
-
 const connection = new pg.Client({
     host:process.env.DATABASE_DOMAIN,
-    user:process.env.DATABASE_USER,
+    user:process.env.DATABASE_USERNAME,
     password:process.env.DATABASE_PASSWORD, //meowmeow12
     database:process.env.DATABASE_DATA_SOURCE //PFE
 })
-connection.connect();
+connection.connect((err) =>{
+    console.log(err);
+});
 
 function PRINT_ACCOUNTS_DATABASE(callback){
 connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{

@@ -61,3 +61,12 @@
 {"level":"error","message":null}
 {"level":"error","message":null}
 {"level":"error","message":null}
+{"address":"::1","code":"ESOCKET","command":"CONN","errno":-4078,"level":"error","port":587,"syscall":"connect"}
+{"code":"EDNS","command":"CONN","errno":-3008,"hostname":"undefined","level":"error","syscall":"getaddrinfo"}
+{"code":"EDNS","command":"CONN","errno":-3008,"hostname":"undefined","level":"error","syscall":"getaddrinfo"}
+{"code":"EDNS","command":"CONN","errno":-3008,"hostname":"undefined","level":"error","syscall":"getaddrinfo"}
+{"address":"::1","code":"ESOCKET","command":"CONN","errno":-4078,"level":"error","port":587,"syscall":"connect"}
+{"address":"::1","code":"ESOCKET","command":"CONN","errno":-4078,"level":"error","port":587,"syscall":"connect"}
+{"address":"::1","code":"ESOCKET","command":"CONN","errno":-4078,"level":"error","port":587,"syscall":"connect"}
+{"level":"error","message":null}
+{"level":"error","message":null}
