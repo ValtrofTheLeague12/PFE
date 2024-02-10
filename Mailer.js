@@ -2,6 +2,7 @@ require('dotenv').config({path:".config/Mailer.env"});
 const Mailer = require('nodemailer');
 const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
+const { time } = require('console');
 const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
 function SEND_RESET_EMAIL(emailAddress,callback){
@@ -43,10 +44,7 @@ results += element;
 loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
 callback(KEY);
 }
-SEND_RESET_EMAIL("jjj544754@gmail.com",(data) => {
-    console.log(data);
-})
 
 module.exports = {
-    SEND_RESET_EMAIL
+    SEND_RESET_EMAIL,
 }

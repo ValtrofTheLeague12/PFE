@@ -70,7 +70,7 @@ function SEARCH_CITIZEN_API2(input,callback){
    })
 }
 function MODIFY_DATABASE_CREDENTIALS(input,callback){
-    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD,[input.NP,input.UUID],(err) =>{
+    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD,[input.OLDP,input.NEWP],(err) =>{
       if(err){
         logs.failedlogs.error(err);
         callback(err,null);
