@@ -1,0 +1,17 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".config": true,
+        "Logs": true,
+        "Tests": true,
+        "Docker": true,
+        ".vscode": true,
+        "www": true,
+        ".gitignore": true
+    }
+}
