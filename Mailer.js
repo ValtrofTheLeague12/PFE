@@ -3,7 +3,7 @@ const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
 const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
-function SEND_EMAIL(emailAddress){
+function SEND_EMAIL(emailAddress,callback){
     
     const Output = `
     Secret Code : ${KEY}
@@ -40,6 +40,7 @@ for(const element of s){
 results += element;
 }
 loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
+callback(KEY);
 }
 
 function RETURNKEY(){

@@ -7,7 +7,7 @@ const Emailer = require('./Mailer');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+let SecretKey = "";
 app.post("/EMAIL",(req,res) =>{
      DATABASE.SELECT_DATA_FROM_UUID(req.body.UUID,(err,data) =>{
         if(err){
@@ -16,9 +16,12 @@ app.post("/EMAIL",(req,res) =>{
         }else if(data.rows.length <= 0){
             res.json({"Rows":data.rows.length,"Message":"User not Found !!!"});
         }else{
-            Emailer.SEND_EMAIL(data.rows[0].Email);
+            Emailer.SEND_EMAIL(data.rows[0].Email,(key) =>{
+            SecretKey = key;
+            console.log(key);
+            });
             res.json({"Message":"Sucess !!!"});
-        }
+       }
      })
 })
 //INSERT AN ACCOUNT IN DATABASE
@@ -37,17 +40,11 @@ app.post("/Login",(req, res) => {
  });
 })
 
+
 app.post('/MDB',(req,res) => {
-  DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,data) =>{
-    if(err){
-        console.log(err);
-        res.json(err);
-    }else{
-        console.log(data)
-        res.json(data);
-    }
-  })
+ 
 })
+
 app.post('/API1',(req,res) =>{
     DATABASE.SEARCH_CITIZEN_API1(req.body.cin,(err,results) =>{
         if(err){
