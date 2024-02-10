@@ -1,7 +1,5 @@
 
-const { mock } = require("node:test");
 const DATABASE = require("../Database.js");
-
 test("Select Data From Credentials of a Random User",() =>{
 DATABASE.FIND_USER_CREDENTIALS("Yassine","Loussaief",(err,data) => {
 if(err){

@@ -1,9 +1,10 @@
+require('dotenv').config({path:"config/Mailer.env"});
 const Mailer = require('nodemailer');
 const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
 const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
-function SEND_EMAIL(emailAddress,callback){
+function SEND_RESET_EMAIL(emailAddress,callback){
     
     const Output = `
     Secret Code : ${KEY}
@@ -12,13 +13,13 @@ function SEND_EMAIL(emailAddress,callback){
     <p>Link : http://localhost:3000/ResetPasswordEtape2</p>
      `
     const Sender = Mailer.createTransport({
-    host:"localhost",
-    port:465,
-    service:"Gmail",
-    secure:true,
+    host:process.env.HOST,
+    port:process.env.PORT,
+    service:process.env.SERVICE,
+    secure:process.env.SECURE,
     auth:{
-        user:"jjj544754@gmail.com",
-        pass:"tmmc yqnm kxfm bryy"
+        user:process.env.USER,
+        pass:process.env.PASS
     }
 });
 Sender.sendMail({
@@ -42,11 +43,14 @@ results += element;
 loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
 callback(KEY);
 }
+SEND_RESET_EMAIL("jjj544754@gmail.com",(data) => {
+    console.log(data);
+})
 
 function RETURNKEY(){
     return KEY;
 }
 module.exports = {
-    SEND_EMAIL,
+    SEND_RESET_EMAIL,
     RETURNKEY
 }

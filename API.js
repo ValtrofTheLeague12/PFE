@@ -7,7 +7,9 @@ const Emailer = require('./Mailer');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-let SecretKey = "";
+let SecretKey = {
+    key:""
+}
 app.post("/EMAIL",(req,res) =>{
      DATABASE.SELECT_DATA_FROM_UUID(req.body.UUID,(err,data) =>{
         if(err){
@@ -16,9 +18,8 @@ app.post("/EMAIL",(req,res) =>{
         }else if(data.rows.length <= 0){
             res.json({"Rows":data.rows.length,"Message":"User not Found !!!"});
         }else{
-            Emailer.SEND_EMAIL(data.rows[0].Email,(key) =>{
-            SecretKey = key;
-            console.log(key);
+            Emailer.SEND_RESET_EMAIL(data.rows[0].Email,(key) =>{
+            SecretKey.key = key;
             });
             res.json({"Message":"Sucess !!!"});
        }
@@ -42,7 +43,7 @@ app.post("/Login",(req, res) => {
 
 
 app.post('/MDB',(req,res) => {
- 
+   
 })
 
 app.post('/API1',(req,res) =>{

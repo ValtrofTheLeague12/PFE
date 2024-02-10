@@ -1,14 +1,16 @@
+
+require('dotenv').config({path:"config/Database.env"});
 const pg = require('pg');
 const security = require('./Encryption');
 const logs = require('./Loggers');
 const {QUERY} = require('./Query');
 
-const connection = new pg.Client({
-    host:"localhost",
-    user:"postgres",
-    password:"meowmeow12",
-    database:"PFE"
 
+const connection = new pg.Client({
+    host:process.env.DATABASE_DOMAIN,
+    user:process.env.DATABASE_USER,
+    password:process.env.DATABASE_PASSWORD, //meowmeow12
+    database:process.env.DATABASE_DATA_SOURCE //PFE
 })
 connection.connect();
 

@@ -1,10 +1,10 @@
-
+require('dotenv').config({path:"config/Files.env"})
 const mainfile = require('winston');
 // Logs Save Results of Important Events !!!
 const logs = mainfile.createLogger({
     transports:[
          new mainfile.transports.File({
-            filename:"Logs/Success.logs",
+            filename:process.env.FILE_PATH_SUCCESS,
             level:"info",
             format:mainfile.format.combine(mainfile.format.timestamp())
          })
@@ -12,7 +12,7 @@ const logs = mainfile.createLogger({
 })
 const failedlogs = mainfile.createLogger({
     transports:new mainfile.transports.File({
-        filename:"Logs/Failed.logs",
+        filename:process.env.LOGS_PATH_FAILED,
         level:"error",
         format:mainfile.format.combine(mainfile.format.timestamp())
     })
