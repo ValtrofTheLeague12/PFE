@@ -8,8 +8,8 @@ const {QUERY} = require('./Query');
 const connection = new pg.Client({
     host:process.env.DATABASE_DOMAIN,
     user:process.env.DATABASE_USERNAME,
-    password:process.env.DATABASE_PASSWORD, //meowmeow12
-    database:process.env.DATABASE_DATA_SOURCE //PFE
+    password:process.env.DATABASE_PASSWORD, 
+    database:process.env.DATABASE_DATA_SOURCE 
 })
 connection.connect((err) =>{
     console.log(err);

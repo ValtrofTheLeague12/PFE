@@ -47,10 +47,6 @@ SEND_RESET_EMAIL("jjj544754@gmail.com",(data) => {
     console.log(data);
 })
 
-function RETURNKEY(){
-    return KEY;
-}
 module.exports = {
-    SEND_RESET_EMAIL,
-    RETURNKEY
+    SEND_RESET_EMAIL
 }
