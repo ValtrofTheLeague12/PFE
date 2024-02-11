@@ -6,17 +6,15 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        ".config": true,
         "Tests": true,
         "Docker": true,
-        ".vscode": true,
-        "www": true,
         ".gitignore": true,
         "/C:/PFE/.gitignore": true,
         "/C:/PFE/package-lock.json": true,
         "/C:/PFE/assets": true,
         "/C:/PFE/Docker": true,
         "/C:/PFE/Logs": true,
-        "/C:/PFE/node_modules": true
+        "/C:/PFE/node_modules": true,
+        "/c:/Users/medhe/OneDrive/Documenten/test": true
     }
 }

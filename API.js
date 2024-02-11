@@ -43,7 +43,7 @@ app.post("/Login",(req, res) => {
 
 
 app.post('/MDB',(req,res) => {
-   
+   DATABASE.MODIFY_DATABASE_CREDENTIALS();
 })
 
 app.post('/API1',(req,res) =>{

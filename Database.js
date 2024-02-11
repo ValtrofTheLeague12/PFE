@@ -15,6 +15,7 @@ connection.connect((err) =>{
     console.log(err);
 });
 
+// this is for debugging Purposes !!!
 function PRINT_ACCOUNTS_DATABASE(callback){
 connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
     if(err){
@@ -70,7 +71,7 @@ function SEARCH_CITIZEN_API2(input,callback){
    })
 }
 function MODIFY_DATABASE_CREDENTIALS(input,callback){
-    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD,[input.OLDP,input.NEWP],(err) =>{
+    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD,[input.OLDP,input.UUID],(err) =>{
       if(err){
         logs.failedlogs.error(err);
         callback(err,null);
