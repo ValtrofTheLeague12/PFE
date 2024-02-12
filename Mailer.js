@@ -42,6 +42,7 @@ loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
 callback(KEY);
 }
 
+
 function SEND_SMS(newPassword,PhoneNumber){
 // code from info bib API implementation
     const myHeaders = new Headers();
@@ -74,4 +75,5 @@ function SEND_SMS(newPassword,PhoneNumber){
 }
 module.exports = {
     SEND_RESET_EMAIL,
+    SEND_SMS
 }

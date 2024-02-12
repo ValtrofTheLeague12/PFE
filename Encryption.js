@@ -7,7 +7,7 @@ function ENCRYPT_PASSWORD(Password){
 let ENCRYPTION_DECRYPTION = new ALGORITHM(Password);
 return ENCRYPTION_DECRYPTION.encrypt(Password,RANDOM_STRING()).substring(0,8);
 }
-
+console.log(RANDOM_STRING())
 module.exports = {
     ENCRYPT_PASSWORD,
     RANDOM_STRING

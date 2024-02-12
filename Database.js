@@ -4,6 +4,7 @@ const pg = require('pg');
 const security = require('./Encryption');
 const logs = require('./Loggers');
 const {QUERY} = require('./Query');
+const Encryption = require("./Encryption")
 
 const connection = new pg.Client({
     host:process.env.DATABASE_DOMAIN,
@@ -71,11 +72,12 @@ function SEARCH_CITIZEN_API2(input,callback){
    })
 }
 function MODIFY_DATABASE_CREDENTIALS(input,callback){
-    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD,[input.OLDP,input.UUID],(err) =>{
+    connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD_WITH_UUID,[Encryption.ENCRYPT_PASSWORD(input.NP),input.UUID],(err,data) =>{
       if(err){
         logs.failedlogs.error(err);
         callback(err,null);
       }else{
+        console.log(data.rowCount)
         let Message = `Password Updated for User with UUID : ${input.UUID}`
         logs.logs.info(Message);
         callback(null,Message);
