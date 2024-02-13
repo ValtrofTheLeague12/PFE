@@ -97,3 +97,17 @@
 {"level":"error","message":null}
 {"level":"error","message":null}
 {"level":"error","message":null}
+{"level":"error","message":null}
+{"level":"error","message":null}
+{"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
+{"level":"error","message":"Something Went Wrong : Error: Connection terminated"}
+{"level":"error","message":"Something Went Wrong : Error: Connection terminated"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":"Something Went Wrong : AggregateError"}
+{"level":"error","message":"Something Went Wrong : AggregateError"}
+{"level":"error","message":"Something Went Wrong !!! : error: le message bind fournit 1 paramètres, mais l'instruction préparée «  » en requiert 2"}
+{"level":"error","message":"Something Went Wrong !!! : error: le message bind fournit 1 paramètres, mais l'instruction préparée «  » en requiert 2"}
+{"level":"error","message":"Something Went Wrong !!! : error: syntaxe en entrée invalide pour le type integer : « 2024-02-16 »"}
+{"level":"error","message":"Something Went Wrong !!! : Error: Client was closed and is not queryable"}
+{"level":"error","message":"Something Went Wrong !!! : Error: Client was closed and is not queryable"}

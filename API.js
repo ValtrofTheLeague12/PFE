@@ -3,8 +3,18 @@ const bodyParser = require('body-parser');
 const file_system = require('fs');
 const DATABASE =require('./Database');
 const Emailer = require('./Mailer');
+const Encryption = require('./Encryption')
+const {LocalStorage} = require('node-localstorage')
+const cors = require('cors')
+
+
+var local = new LocalStorage("./scratch");
 
 const app = express();
+app.use(cors())
+var secure = Encryption.RANDOM_STRING().substring(0,8)
+local.setItem("SecretCode",secure)
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 let SecretKey = {
@@ -42,7 +52,30 @@ app.post("/Login",(req, res) => {
 })
 
 
-app.post('/MDB',(req,res) => {
+
+app.post('/SMS',(req,res) =>{
+    Emailer.SEND_SECRET_OTP_SMS(req.body.Phone,local.getItem('SecretCode'),(err,data) =>{
+        if(err){
+            res.json(err);
+        }else{
+            res.json(data)
+        }
+    })
+
+})
+
+app.post('/VerifySMS',(req,res) => {
+    console.log(local.getItem('SecretCode'))
+    if(req.body.code == local.getItem('SecretCode')){
+        res.json({Verification:true,Message:"Correcto Welcome !!!"})
+    }else{
+        res.json({Verification:false,Message:"Oh No !!!"})
+    }
+})
+
+app.post('/MDBReset',(req,res) => {
+    console.log(SecretKey.key)
+   if(req.body.SecretCode == SecretKey.key){
    DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,data) =>{
     if(err){
         res.json(err)
@@ -50,10 +83,13 @@ app.post('/MDB',(req,res) => {
         res.json(data)
     }
    });
+}else{
+  res.json({Message:"Error Please Verify Your Secret Code..."})
+}
 })
 
 app.post('/API1',(req,res) =>{
-    DATABASE.SEARCH_CITIZEN_API1(req.body.cin,(err,results) =>{
+    DATABASE.SEARCH_CITIZEN_API1(req.body,(err,results) =>{
         if(err){
             res.json(err);
             console.log(err);

@@ -10,23 +10,25 @@ const connection = new pg.Client({
     host:process.env.DATABASE_DOMAIN,
     user:process.env.DATABASE_USERNAME,
     password:process.env.DATABASE_PASSWORD, 
-    database:process.env.DATABASE_DATA_SOURCE 
+    database:process.env.DATABASE_DATA_SOURCE,
 })
+
 connection.connect((err) =>{
     console.log(err);
 });
-
 // this is for debugging Purposes !!!
 function PRINT_ACCOUNTS_DATABASE(callback){
+
 connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
     if(err){
         callback(err,null); //chat gpt function
         logs.failedlogs.error("Something went Wrong : "+err);
+        
     }
         callback(null,data.rows); // chat gpt function
-        logs.logs.info("Data Selected From Database !!!");
+        logs.logs.info("Data Selected From Database !!!")
+    });
 
-});
 }
 function INSERT_ACCOUNTS_NEW_RECORD(input){
         console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email)
@@ -35,6 +37,7 @@ function INSERT_ACCOUNTS_NEW_RECORD(input){
         console.log("inserted !!!");
         logs.logs.info("Success !!! new User has Been Inserted !!!");
     }));
+    
 }
 
 function FIND_USER_CREDENTIALS(Username,Password,callback){
@@ -47,9 +50,10 @@ function FIND_USER_CREDENTIALS(Username,Password,callback){
          callback(null,data.rows);
         }
     });
+    
 }
-function SEARCH_CITIZEN_API1(cin,callback){
-    connection.query(QUERY.API1_QUERY,[cin],(err,results) =>{
+function SEARCH_CITIZEN_API1(input,callback){
+    connection.query(QUERY.API1_QUERY,[input.cin,input.date_naiss],(err,results) =>{
         if(err){
             callback(err,null);
             logs.failedlogs.error("Something Went Wrong !!! : "+err);
@@ -58,7 +62,7 @@ function SEARCH_CITIZEN_API1(cin,callback){
             logs.logs.info("Sucess !!! Data Selected From First API");
         }
     })
- 
+
 }
 function SEARCH_CITIZEN_API2(input,callback){
    connection.query(QUERY.API2_QUERY,[input.name,input.lastname,input.fathername,input.mothername],(err,data) =>{
@@ -70,31 +74,36 @@ function SEARCH_CITIZEN_API2(input,callback){
          logs.logs.info("Sucess Data Selected !!! From API2 ");
     }
    })
+
 }
 function MODIFY_DATABASE_CREDENTIALS(input,callback){
     connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD_WITH_UUID,[Encryption.ENCRYPT_PASSWORD(input.NP),input.UUID],(err,data) =>{
       if(err){
         logs.failedlogs.error(err);
         callback(err,null);
+        
       }else{
-        console.log(data.rowCount)
         let Message = `Password Updated for User with UUID : ${input.UUID}`
         logs.logs.info(Message);
         callback(null,Message);
       }
+
     })
+
 }
 
 function SELECT_DATA_FROM_UUID(input,callback){
     connection.query(QUERY.SELECT_USER_FROM_UUID,[input],(err,data) =>{
         if(err){
+            connection.end()
             logs.failedlogs.error(err);
             callback(err,null);
         }else{
-            logs.logs.info("Sucess !!! Selected Data With UUID");
-            callback(null,data);
+            logs.logs.info("Sucess !!! Selected Data With UUID Rows Affected : "+data.rowCount);
+            callback(null,data.rowCount);
         }
     });
+    
 }
 
 module.exports = {

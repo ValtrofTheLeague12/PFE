@@ -13,7 +13,7 @@ const QUERY = {
     ,"nationalitePereCode","nationalitePereLib"
     ,"nationaliteMereCode","nationaliteMereLib",
     "dateDecesMention","dateDecesAct" FROM "citoyen"
-     WHERE "cin" = $1`,
+     WHERE "cin" = $1 and date_naissance = $2`,
     API2_QUERY:`SELECT "idsocial","prenom",
     "nom","genre"
     ,"date_naissance","communeCode",

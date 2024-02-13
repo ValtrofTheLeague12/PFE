@@ -35,18 +35,26 @@ Content-Type: application/json
     "mothername":"Kaitlin"
 }
 ###
-POST http://localhost:2020/MDB
+POST http://localhost:2020/MDBReset
 Content-Type: application/json
 
 {
+     "SecretCode":"123",
      "NP":"Yassuo123",
      "UUID":"2d977378-dd88-44ce-99bc-ecc2e1a88049"
 }
 ###
 
-POST http://localhost:2020/Email
+POST http://localhost:2020/EMAIL
 Content-Type: application/json
 
 {
   "UUID":"14a8ab09-3a76-49c2-8227-47ec7b946839"
+}
+###
+POST http://127.0.0.1:2020/SMS
+Content-Type: application/json
+
+{
+    "Phone":"+21622495131"
 }

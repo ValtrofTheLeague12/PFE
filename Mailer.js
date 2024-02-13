@@ -22,7 +22,7 @@ function SEND_RESET_EMAIL(emailAddress,callback){
     }
 });
 Sender.sendMail({
-    from:"jjj544754@gmail.com",
+    from:process.env.USER,
     to:emailAddress,
     subject:"Reseting Password",
     html:Output
@@ -43,7 +43,7 @@ callback(KEY);
 }
 
 
-function SEND_SMS(newPassword,PhoneNumber){
+function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
 // code from info bib API implementation
     const myHeaders = new Headers();
     myHeaders.append("Authorization", "App 00f46d64b691b705b41c311513d2b59c-c9f95492-5a07-4d84-8b40-872bc15d420f");
@@ -53,9 +53,9 @@ function SEND_SMS(newPassword,PhoneNumber){
     const raw = JSON.stringify({
         "messages": [
             {
-                "destinations": [{"to":"21622495131"}],
-                "from": "ServiceSMS",
-                "text": "Sucess !!! Your new Password is "+newPassword
+                "destinations": [{"to":`+216${PhoneNumber}`}],
+                "from": "Minister Des Affaires Social (Yassine Loussaief)",
+                "text": "OTP Code is : "+SecretCode
             }
         ]
     });
@@ -68,12 +68,14 @@ function SEND_SMS(newPassword,PhoneNumber){
     };
 
     fetch("https://6g65l8.api.infobip.com/sms/2/text/advanced", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+        .then((response) => console.log(response.text()))
+        .then((result) => callback(null,result))
+        .catch((error) => {callback(error,null);
+        console.log(error)});
 
 }
 module.exports = {
     SEND_RESET_EMAIL,
-    SEND_SMS
+    SEND_SECRET_OTP_SMS,
+    
 }
