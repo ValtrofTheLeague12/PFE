@@ -65,7 +65,7 @@ function SEARCH_CITIZEN_API1(input,callback){
 
 }
 function SEARCH_CITIZEN_API2(input,callback){
-   connection.query(QUERY.API2_QUERY,[input.name,input.lastname,input.fathername,input.mothername],(err,data) =>{
+   connection.query(QUERY.API2_QUERY,[input.date_naiss,input.gender,input.name,input.lastname,input.fathername,input.mothername],(err,data) =>{
     if(err){
         callback(err,null);
         logs.failedlogs.error(err);
@@ -80,10 +80,11 @@ function MODIFY_DATABASE_CREDENTIALS(input,callback){
     connection.query(QUERY.UPDATE_CREDENTIALS_RESET_PASSWORD_WITH_UUID,[Encryption.ENCRYPT_PASSWORD(input.NP),input.UUID],(err,data) =>{
       if(err){
         logs.failedlogs.error(err);
+        console.log(err)
         callback(err,null);
-        
       }else{
         let Message = `Password Updated for User with UUID : ${input.UUID}`
+        console.log(Message);
         logs.logs.info(Message);
         callback(null,Message);
       }
@@ -100,7 +101,7 @@ function SELECT_DATA_FROM_UUID(input,callback){
             callback(err,null);
         }else{
             logs.logs.info("Sucess !!! Selected Data With UUID Rows Affected : "+data.rowCount);
-            callback(null,data.rowCount);
+            callback(null,data);
         }
     });
     

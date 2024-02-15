@@ -17,23 +17,20 @@ local.setItem("SecretCode",secure)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-let SecretKey = {
-    key:""
-}
-app.post("/EMAIL",(req,res) =>{
+app.post("/EMAIL",(req,res) =>{ 
      DATABASE.SELECT_DATA_FROM_UUID(req.body.UUID,(err,data) =>{
         if(err){
             res.json(err);
-            console.log(err);
         }else if(data.rows.length <= 0){
             res.json({"Rows":data.rows.length,"Message":"User not Found !!!"});
         }else{
             Emailer.SEND_RESET_EMAIL(data.rows[0].Email,(key) =>{
-            SecretKey.key = key;
+            local.setItem('emailkey',key);
             });
-            res.json({"Message":"Sucess !!!"});
+            res.json({"Rows":data.rows.length,"Message":"Sucess !!!"});
        }
      })
+     
 })
 //INSERT AN ACCOUNT IN DATABASE
 app.post('/Subscription',(req, res) => {
@@ -74,12 +71,14 @@ app.post('/VerifySMS',(req,res) => {
 })
 
 app.post('/MDBReset',(req,res) => {
-    console.log(SecretKey.key)
-   if(req.body.SecretCode == SecretKey.key){
+    console.log(req.body)
+    console.log(local.getItem('emailkey'))
+   if(req.body.SecretCode == local.getItem('emailkey')){
    DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,data) =>{
     if(err){
         res.json(err)
     }else{
+        console.log(data)
         res.json(data)
     }
    });
@@ -151,6 +150,7 @@ app.post('/API1',(req,res) =>{
 // Same Type of Return But Not The Same Params
 app.post('/API2',(req,res) =>{
   DATABASE.SEARCH_CITIZEN_API2(req.body,(err,results) =>{
+    console.log(req.body)
     if(err){
         res.json(err);
         console.log(err);

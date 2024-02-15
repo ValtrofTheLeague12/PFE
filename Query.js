@@ -13,7 +13,7 @@ const QUERY = {
     ,"nationalitePereCode","nationalitePereLib"
     ,"nationaliteMereCode","nationaliteMereLib",
     "dateDecesMention","dateDecesAct" FROM "citoyen"
-     WHERE "cin" = $1 and date_naissance = $2`,
+     WHERE "cin" = $1 and "date_naissance" = $2`,
     API2_QUERY:`SELECT "idsocial","prenom",
     "nom","genre"
     ,"date_naissance","communeCode",
@@ -22,10 +22,12 @@ const QUERY = {
     ,"nationalitePereCode","nationalitePereLib"
     ,"nationaliteMereCode","nationaliteMereLib",
     "dateDecesMention","dateDecesAct" FROM "citoyen" WHERE
-    "nom" = $1 AND
-    "prenom" = $2 AND
-    "nomPere" = $3 AND
-    "nomMere" = $4
+    "date_naissance" = $1 AND
+    "genre" = $2 AND
+    "nom" = $3 AND
+    "prenom" = $4 AND
+    "nomPere" = $5 AND
+    "nomMere" = $6
      `
 }
 module.exports = {

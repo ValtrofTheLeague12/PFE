@@ -42,6 +42,10 @@ loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
 callback(KEY);
 }
 
+function SEND_PASSWORD_TO_USER(phoneNumber){
+
+    
+}
 
 function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
 // code from info bib API implementation
@@ -77,5 +81,6 @@ function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
 module.exports = {
     SEND_RESET_EMAIL,
     SEND_SECRET_OTP_SMS,
+    SEND_PASSWORD_TO_USER
     
 }
