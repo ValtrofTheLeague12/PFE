@@ -4,13 +4,10 @@ const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
 const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
-function SEND_RESET_EMAIL(emailAddress,callback){
-    const Output = `
-    Secret Code : ${KEY}
-    <h1>Note : </h1>
-    <p>Use this Code To Reset Your Password</p>
-    <p>Link : http://localhost:3000/ResetPasswordEtape2</p>
-     `
+
+
+
+function SEND_EMAIL(subject,Output,emailAddress){
     const Sender = Mailer.createTransport({
     host:process.env.HOST,
     port:process.env.PORT,
@@ -24,7 +21,7 @@ function SEND_RESET_EMAIL(emailAddress,callback){
 Sender.sendMail({
     from:process.env.USER,
     to:emailAddress,
-    subject:"Reseting Password",
+    subject:subject,
     html:Output
 },(err) =>{
     console.log(err);
@@ -38,13 +35,30 @@ let results = "";
 for(const element of s){
 results += element;
 }
-loggers.logs.info(`Sucess !!! Email Sended to ${results}`);
-callback(KEY);
+loggers.logs.info(`Sucess !!! Email Sended to ${results}`);;
 }
 
-function SEND_PASSWORD_TO_USER(phoneNumber){
-
-    
+function SEND_ACCOUNT_TO_USER(UUID,Username,Password,phoneNumber){
+    require('dotenv').config({path:'config/SMS.env'});
+    fetch(process.env.SMS_URL,{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json',
+            "Authorization":`Àpp ${process.env.SMS_API_KEY}`
+        },
+        body:JSON.stringify({
+            "messages":[{
+                "destinations":[{"to":`+216${phoneNumber}`}],
+                "from":'Minister des Affaires Social',
+                "text":"Your Username : "+Username+"Your Password is : "+Password+"\n"+"Your UUID is : "+UUID+"\n"
+            }]
+        })
+    }).then((response) =>{
+        console.log(response.json());
+    }).catch(err =>{
+        console.log(err);
+    })
 }
 
 function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
@@ -79,8 +93,8 @@ function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
 
 }
 module.exports = {
-    SEND_RESET_EMAIL,
+    SEND_EMAIL,
     SEND_SECRET_OTP_SMS,
-    SEND_PASSWORD_TO_USER
+    SEND_ACCOUNT_TO_USER
     
 }

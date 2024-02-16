@@ -128,3 +128,6 @@
 {"level":"error","message":"Something Went Wrong !!! : error: valeur du champ date/time en dehors des limites : « 1041379200000 »"}
 {"code":"42601","file":"scan.l","length":110,"level":"error","line":"1245","name":"error","position":"341","routine":"scanner_yyerror","severity":"ERREUR"}
 {"code":"42703","file":"parse_relation.c","hint":"Peut-être que vous souhaitiez référencer la colonne « citoyen.genre ».","length":191,"level":"error","line":"3729","name":"error","position":"345","routine":"errorMissingColumn","severity":"ERREUR"}
+{"level":"error","message":null}
+{"level":"error","message":null}
+{"level":"error","message":null}

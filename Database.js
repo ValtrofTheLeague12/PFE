@@ -30,13 +30,18 @@ connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
     });
 
 }
-function INSERT_ACCOUNTS_NEW_RECORD(input){
-        console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email)
-        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,20),input.name,input.lastname,input.Username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.cin],(err =>{
-        if(err) {console.log("Something Went Wrong : "+err);logs.failedlogs.error(err)};
+function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
+        console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email,input.Phone)
+        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,20),input.name,input.lastname,input.Username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.cin],(err,data) =>{
+        if(err) {
+            console.log("Something Went Wrong : "+err);
+            logs.failedlogs.error(err)
+            callback(err,null);
+        };
         console.log("inserted !!!");
         logs.logs.info("Success !!! new User has Been Inserted !!!");
-    }));
+        callback(null,data.rows[0].Password);
+    });
     
 }
 

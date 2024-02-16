@@ -13,7 +13,7 @@ var local = new LocalStorage("./scratch");
 const app = express();
 app.use(cors())
 var secure = Encryption.RANDOM_STRING().substring(0,8)
-local.setItem("SecretCode",secure)
+local.setItem("SecretCode",secure);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -24,9 +24,13 @@ app.post("/EMAIL",(req,res) =>{
         }else if(data.rows.length <= 0){
             res.json({"Rows":data.rows.length,"Message":"User not Found !!!"});
         }else{
-            Emailer.SEND_RESET_EMAIL(data.rows[0].Email,(key) =>{
-            local.setItem('emailkey',key);
-            });
+            const Output = `
+            Secret Code : ${local.getItem("SecretCode")}
+            <h1>Note : </h1>
+            <p>Use this Code To Reset Your Password</p>
+            <p>Link : http://localhost:3000/ResetPasswordEtape2</p>
+     `
+            Emailer.SEND_EMAIL("Reseting Password",Output,data.rows[0].Email);
             res.json({"Rows":data.rows.length,"Message":"Sucess !!!"});
        }
      })
@@ -34,7 +38,15 @@ app.post("/EMAIL",(req,res) =>{
 })
 //INSERT AN ACCOUNT IN DATABASE
 app.post('/Subscription',(req, res) => {
-    DATABASE.INSERT_ACCOUNTS_NEW_RECORD(req.body);
+    DATABASE.INSERT_ACCOUNTS_NEW_RECORD(req.body,(err,data) =>{
+        if(err){
+            res.json(err);
+        }else{
+            res.json(data);
+            Emailer.SEND_ACCOUNT_TO_USER(data.rows[0].UUID,data.rows[0].Username,data.rows[0].Password,data.rows[0].Phone);
+            
+        }
+    });
 });
 
 //CHECK IF USER EXISTS...
@@ -62,18 +74,17 @@ app.post('/SMS',(req,res) =>{
 })
 
 app.post('/VerifySMS',(req,res) => {
-    console.log(local.getItem('SecretCode'))
+    console.log(req.body)
     if(req.body.code == local.getItem('SecretCode')){
-        res.json({Verification:true,Message:"Correcto Welcome !!!"})
+        res.json({Verification:true,Message:"Correct Welcome !!!"})
     }else{
         res.json({Verification:false,Message:"Oh No !!!"})
     }
 })
 
 app.post('/MDBReset',(req,res) => {
-    console.log(req.body)
-    console.log(local.getItem('emailkey'))
-   if(req.body.SecretCode == local.getItem('emailkey')){
+    console.log(local.getItem('SecretCode'))
+   if(req.body.SecretCode == local.getItem('SecretCode')){
    DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,data) =>{
     if(err){
         res.json(err)
