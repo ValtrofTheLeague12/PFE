@@ -1,0 +1,23 @@
+const database = require('pg');
+connect = database.Client({
+
+})
+function INSERT_APPLICATION(){
+
+}
+function RETREIVE_DISSAPROVED_APPLICATION(){
+
+}
+function RETREIVE_APPROVED_APPLICATION(){
+
+}
+
+function RETREVIE_ALL_APPLICATIONS(){
+    
+}
+
+module.exports = {
+RETREIVE_APPROVED_APPLICATION,
+INSERT_APPLICATION,
+RETREIVE_DISSAPROVED_APPLICATION,
+RETREVIE_ALL_APPLICATIONS};

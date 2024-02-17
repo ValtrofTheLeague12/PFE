@@ -38,20 +38,21 @@ results += element;
 loggers.logs.info(`Sucess !!! Email Sended to ${results}`);;
 }
 
-function SEND_ACCOUNT_TO_USER(UUID,Username,Password,phoneNumber){
-    require('dotenv').config({path:'config/SMS.env'});
-    fetch(process.env.SMS_URL,{
+function SEND_SMS(input,phoneNumber){
+    
+    require('dotenv').config({path:'.config/SMS.env'});
+    fetch("https://6g65l8.api.infobip.com/sms/2/text/advanced",{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
             'Accept':'application/json',
-            "Authorization":`Àpp ${process.env.SMS_API_KEY}`
+            "Authorization":`App 00f46d64b691b705b41c311513d2b59c-c9f95492-5a07-4d84-8b40-872bc15d420f`
         },
         body:JSON.stringify({
             "messages":[{
                 "destinations":[{"to":`+216${phoneNumber}`}],
                 "from":'Minister des Affaires Social',
-                "text":"Your Username : "+Username+"Your Password is : "+Password+"\n"+"Your UUID is : "+UUID+"\n"
+                "text":input
             }]
         })
     }).then((response) =>{
@@ -95,6 +96,5 @@ function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
 module.exports = {
     SEND_EMAIL,
     SEND_SECRET_OTP_SMS,
-    SEND_ACCOUNT_TO_USER
-    
+    SEND_SMS
 }

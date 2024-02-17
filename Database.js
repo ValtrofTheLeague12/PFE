@@ -22,8 +22,7 @@ function PRINT_ACCOUNTS_DATABASE(callback){
 connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
     if(err){
         callback(err,null); //chat gpt function
-        logs.failedlogs.error("Something went Wrong : "+err);
-        
+        logs.failedlogs.error("Something went Wrong : "+err); 
     }
         callback(null,data.rows); // chat gpt function
         logs.logs.info("Data Selected From Database !!!")
@@ -32,7 +31,7 @@ connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
 }
 function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
         console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email,input.Phone)
-        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,20),input.name,input.lastname,input.Username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.cin],(err,data) =>{
+        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,8),input.name,input.lastname,input.Username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.cin],(err,data) =>{
         if(err) {
             console.log("Something Went Wrong : "+err);
             logs.failedlogs.error(err)
@@ -40,7 +39,7 @@ function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
         };
         console.log("inserted !!!");
         logs.logs.info("Success !!! new User has Been Inserted !!!");
-        callback(null,data.rows[0].Password);
+        callback(null,data.rows[0]);
     });
     
 }
@@ -86,12 +85,12 @@ function MODIFY_DATABASE_CREDENTIALS(input,callback){
       if(err){
         logs.failedlogs.error(err);
         console.log(err)
-        callback(err,null);
+        callback(err,null,null);
       }else{
         let Message = `Password Updated for User with UUID : ${input.UUID}`
         console.log(Message);
         logs.logs.info(Message);
-        callback(null,Message);
+        callback(null,Message,data);
       }
 
     })
@@ -109,7 +108,6 @@ function SELECT_DATA_FROM_UUID(input,callback){
             callback(null,data);
         }
     });
-    
 }
 
 module.exports = {

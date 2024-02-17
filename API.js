@@ -8,22 +8,25 @@ const {LocalStorage} = require('node-localstorage')
 const cors = require('cors')
 
 
-var local = new LocalStorage("./scratch");
+const local = new LocalStorage("./scratch");
 
 const app = express();
-app.use(cors())
-var secure = Encryption.RANDOM_STRING().substring(0,8)
+app.use(cors());
+
+const secure = Encryption.RANDOM_STRING().substring(0,8)
 local.setItem("SecretCode",secure);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+
 app.post("/EMAIL",(req,res) =>{ 
      DATABASE.SELECT_DATA_FROM_UUID(req.body.UUID,(err,data) =>{
         if(err){
             res.json(err);
         }else if(data.rows.length <= 0){
             res.json({"Rows":data.rows.length,"Message":"User not Found !!!"});
-        }else{
+        }else if(req.body.SEND == "EMAIL"){
             const Output = `
             Secret Code : ${local.getItem("SecretCode")}
             <h1>Note : </h1>
@@ -32,6 +35,9 @@ app.post("/EMAIL",(req,res) =>{
      `
             Emailer.SEND_EMAIL("Reseting Password",Output,data.rows[0].Email);
             res.json({"Rows":data.rows.length,"Message":"Sucess !!!"});
+       }else{
+           const Output = 'Secret Code is : '+local.getItem('SecretCode');
+           Emailer.SEND_SMS(Output,data.rows[0].Phone);
        }
      })
      
@@ -43,8 +49,7 @@ app.post('/Subscription',(req, res) => {
             res.json(err);
         }else{
             res.json(data);
-            Emailer.SEND_ACCOUNT_TO_USER(data.rows[0].UUID,data.rows[0].Username,data.rows[0].Password,data.rows[0].Phone);
-            
+               
         }
     });
 });
@@ -82,15 +87,35 @@ app.post('/VerifySMS',(req,res) => {
     }
 })
 
+app.post('/EMAIL/CORDS',(req,res) => {
+    const output = 'Your Username : '+req.body.Username+" <br> "
+    +"Your Password : "+
+    req.body.Password+"<br>"+
+    "Your UUID : "+req.body.UUID+" <br>"
+  Emailer.SEND_EMAIL('Account Coordinates',output,req.body.Email);
+})
+
+app.post('/SMS/CORDS',(req,res) =>{
+    const input = "Your Username is : "+req.body.Username+"\n"
+    + " Password : "+req.body.Password+"\n"+
+    " Your UUID : "+req.body.UUID
+Emailer.SEND_SMS(input,req.body.Phone)
+})
+
 app.post('/MDBReset',(req,res) => {
+    console.log(req.body.SERVICE)
     console.log(local.getItem('SecretCode'))
    if(req.body.SecretCode == local.getItem('SecretCode')){
-   DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,data) =>{
+   DATABASE.MODIFY_DATABASE_CREDENTIALS(req.body,(err,message,data) =>{
     if(err){
         res.json(err)
     }else{
-        console.log(data)
-        res.json(data)
+        if(req.body.SERVICE == "EMAIL"){
+           Emailer.SEND_EMAIL("Reset Update Sucess !!!","Your new Password is : "+data.rows[0].Password,data.rows[0].Email);
+        }else{
+          Emailer.SEND_SMS("Your New Password is : "+data.rows[0].Password,data.rows[0].Phone);
+        }
+        res.json(message);
     }
    });
 }else{
@@ -226,6 +251,7 @@ file_system.readFile("./Logs/Failed.logs",(err,data) => {
      res.send("<h1> Logs : <br>"+data+"</h1>");
 });
 })
+
 
 app.listen(2020, () => {
     console.log("Connected to Port 2020");
