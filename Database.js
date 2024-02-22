@@ -18,7 +18,6 @@ connection.connect((err) =>{
 });
 // this is for debugging Purposes !!!
 function PRINT_ACCOUNTS_DATABASE(callback){
-
 connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
     if(err){
         callback(err,null); //chat gpt function
@@ -51,6 +50,7 @@ function FIND_USER_CREDENTIALS(Username,Password,callback){
          callback(err,null);
          }else{
          logs.logs.info("Success !!! Data from Credentials Table Has been Selected !!!");
+         logs.logs.info(`User ${Username.replace(Username,"******")} has Logged in `+new Date())
          callback(null,data.rows);
         }
     });

@@ -6,8 +6,7 @@ const Emailer = require('./Mailer');
 const Encryption = require('./Encryption')
 const {LocalStorage} = require('node-localstorage')
 const cors = require('cors')
-
-
+const excel = require("./ExceLIO");
 const local = new LocalStorage("./scratch");
 
 const app = express();
@@ -48,8 +47,8 @@ app.post('/Subscription',(req, res) => {
         if(err){
             res.json(err);
         }else{
-            res.json(data);
-               
+            excel.CREATE_NEW_USER_SHEET({cin:data.cin})
+            res.json(data);           
         }
     });
 });
@@ -61,6 +60,7 @@ app.post("/Login",(req, res) => {
         res.json(err);
     }else{
         res.json(results);
+    
     }
  });
 })
