@@ -149,3 +149,10 @@
 {"level":"error","message":null}
 {"level":"error","message":null}
 {"level":"error","message":null}
+{"level":"error","message":"Error : Error: EBUSY: resource busy or locked, open 'C:\\RESTAPI\\Crypto Base\\data.xlsx'"}
+{"level":"error","message":"Error : Error: EBUSY: resource busy or locked, open 'C:\\RESTAPI\\Crypto Base\\data.xlsx'"}
+{"level":"error","message":"Error : Error: EBUSY: resource busy or locked, open 'C:\\RESTAPI\\Crypto Base\\data.xlsx'"}
+{"level":"error","message":"Error : Error: EBUSY: resource busy or locked, open 'C:\\RESTAPI\\Crypto Base\\data.xlsx'"}
+{"level":"error","message":null}
+{"level":"error","message":null}
+{"level":"error","message":null}

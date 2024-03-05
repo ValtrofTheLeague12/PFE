@@ -1,20 +1,18 @@
 const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const file_system = require('fs');
 const DATABASE =require('./Database');
 const Emailer = require('./Mailer');
 const Encryption = require('./Encryption')
 const {LocalStorage} = require('node-localstorage')
+const excel = require('./ExceLIO')
 const cors = require('cors')
-const excel = require("./ExceLIO");
 const local = new LocalStorage("./scratch");
-
-const app = express();
+require('dotenv').config({path:"./.config/Pointer.env"})
+const file_manager = require("./FileManager")
+local.setItem("SecretCode",Encryption.RANDOM_STRING().substring(0,8));
 app.use(cors());
-
-const secure = Encryption.RANDOM_STRING().substring(0,8)
-local.setItem("SecretCode",secure);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -41,14 +39,104 @@ app.post("/EMAIL",(req,res) =>{
      })
      
 })
-//INSERT AN ACCOUNT IN DATABASE
+
+app.post('/db/socials/getSocialCredentials',(req,res) =>{
+    DATABASE.SEARCH_DATA_FROM_SOCIAL(req.body.cin,(err,data) =>{
+        if(err){
+            res.json(err)
+        }else{
+            res.json(data)
+        }
+    })
+})
+
+app.post('/file/utils/upload_file',file_manager.file_manager.array('pdfFiles'),(req,res) => {
+    console.log(req.file)
+    res.json({"Message":"Uploaded !!!"})
+})
+app.post('/AfterLogin/getCredentialsFromLogin',(req,res) =>{
+    DATABASE.GET_CREDENTIALS_AFTER_LOGIN({name:req.body.name,Last_name:req.body.ln},(err,results) =>{
+        if(err){
+            console.log(err)
+            res.send(err)
+        }else{
+            res.send({data:results})
+        }
+    })
+})
+
+
+app.post("/Applications/Insert",(req,res) =>{
+    
+        excel.WRITE_TO_USER_SHEET({cin:req.body.CIN},{
+        CIN:Encryption.ENCRYPT_DATA(req.body.CIN),
+        Name:Encryption.ENCRYPT_DATA(req.body.Name),
+        "Last Name":Encryption.ENCRYPT_DATA(req.body["Last Name"]),
+        Demande:Encryption.ENCRYPT_DATA(req.body.Demande),
+        Description:Encryption.ENCRYPT_DATA(req.body.Description),
+        Status:Encryption.ENCRYPT_DATA(req.body.Status),
+        Date:Encryption.ENCRYPT_DATA(req.body.Date),
+        "Starting Date":Encryption.ENCRYPT_DATA(req.body["Starting Date"]),
+        "Ending Date ":Encryption.ENCRYPT_DATA(req.body["Ending Date "]),
+        Hash:Encryption.RANDOM_STRING()
+    })  
+    res.send({message:"inserted !!!"})
+})
+
+
+app.get("/Applications/GetAllRequests",(req,res) =>{
+excel.READ_ALL_APPLICATION_IN_EXCEL_FILE(results =>{
+    res.send({"results":results})
+})
+})
+app.post("/Applications/GetDetails",(req,res) =>{
+     excel.GET_DEMAND_DESCRIPTION(req.body.hash,req.body.cin,(results) =>{
+        if(results == undefined){
+             res.send({message:'not found'})
+        }else{
+            res.send(results)
+        }
+     })
+})
+app.post("/Applications/GetDecryptedUserRequests",(req,res) =>{
+excel.GET_DECRYPTED_USER_DATA(req.body.cin,(results) =>{
+    console.log(results)
+    res.send(results)
+});
+})
+
+app.post("/Applications/GetUserRequests",(req,res) =>{
+  excel.READ_USER_APPLICATIONS({cin:req.body.cin},(data) =>
+  {
+    res.send(data);
+  })
+})
+app.get("/Applications/getHTMLApplication",(req,res) =>{
+    excel.GET_APPLICATION_HTML((response) =>{
+        res.send(response)
+    })
+})
+app.post('/Applications/ReadDescription',(req,res) =>{
+ var results_to_send = ""
+    excel.GET_DEMAND_DESCRIPTION(req.body.hash,req.body.cin,(results) =>{
+           results_to_send = results
+    })
+    res.json({"results":results_to_send})
+})
+app.post("/Applications/getUserHTMLApplication",(req,res) =>{
+    res.send(excel.GET_USER_APPLICATIONS_HTML(req.body.cin,(results =>{
+        res.send(results)
+    })))
+})
+
 app.post('/Subscription',(req, res) => {
     DATABASE.INSERT_ACCOUNTS_NEW_RECORD(req.body,(err,data) =>{
         if(err){
             res.json(err);
         }else{
-            excel.CREATE_NEW_USER_SHEET({cin:data.cin})
-            res.json(data);           
+            console.log(req.body)
+            excel.CREATE_NEW_USER_SHEET({cin:req.body.cin,Name:input.name,Last_name:input.lastname,Username:input.Username})
+           /res.json(data);           
         }
     });
 });
@@ -64,8 +152,6 @@ app.post("/Login",(req, res) => {
     }
  });
 })
-
-
 
 app.post('/SMS',(req,res) =>{
     Emailer.SEND_SECRET_OTP_SMS(req.body.Phone,local.getItem('SecretCode'),(err,data) =>{
@@ -120,8 +206,8 @@ app.post('/MDBReset',(req,res) => {
    });
 }else{
   res.json({Message:"Error Please Verify Your Secret Code..."})
-}
-})
+
+}})
 
 app.post('/API1',(req,res) =>{
     DATABASE.SEARCH_CITIZEN_API1(req.body,(err,results) =>{
@@ -183,6 +269,9 @@ app.post('/API1',(req,res) =>{
         }
     })
 })
+
+
+
 // Same Type of Return But Not The Same Params
 app.post('/API2',(req,res) =>{
   DATABASE.SEARCH_CITIZEN_API2(req.body,(err,results) =>{
@@ -251,7 +340,6 @@ file_system.readFile("./Logs/Failed.logs",(err,data) => {
      res.send("<h1> Logs : <br>"+data+"</h1>");
 });
 })
-
 
 app.listen(2020, () => {
     console.log("Connected to Port 2020");

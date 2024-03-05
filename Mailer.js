@@ -4,9 +4,6 @@ const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
 const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
-
-
-
 function SEND_EMAIL(subject,Output,emailAddress){
     const Sender = Mailer.createTransport({
     host:process.env.HOST,

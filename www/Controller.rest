@@ -14,8 +14,8 @@ Content-Type: application/json
     "lastname":"KingValtr",
     "Password":"123456",
     "Username":"Sneeko",
-    "Email":"123@gmail.com",
-    "cin":"12345678"
+    "Email":"123@gmail.com"
+    
 }
 ####
 POST http://localhost:2020/API1
@@ -58,3 +58,37 @@ Content-Type: application/json
 {
     "Phone":"+21622495131"
 }
+
+###
+POST http://127.0.0.1:2020/Applications/Insert
+Content-Type: application/json
+
+{
+    "CIN":87957819,
+    "Name":"Madline",
+    "Last Name":"Midford",
+    "Demande":"TMP",
+    "Description":"MeowMoesMoew saha",
+    "Status":"Accepted",
+    "Date":"17-11-2002",
+    "Starting Date":"17-11-2002",
+    "Ending Date ":"17-11-2002"
+
+}
+###
+POST http://127.0.0.1:2020/Applications/GetUserRequests
+Content-Type: application/json
+
+{
+    "cin":87957819
+}
+###
+POST http://127.0.0.1:2020/AfterLogin/getCredentialsFromLogin
+Content-Type: application/json
+
+{
+    "name":"Madeleine",
+    "ln":"Midford"
+}
+###
+GET http://127.0.0.1:3000/json

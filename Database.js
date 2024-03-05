@@ -23,10 +23,20 @@ connection.query(QUERY.SELECT_CREDENTIALS_ALL_RECORDS,(err,data) =>{
         callback(err,null); //chat gpt function
         logs.failedlogs.error("Something went Wrong : "+err); 
     }
-        callback(null,data.rows); // chat gpt function
+        callback(null,data.rows[0]);
         logs.logs.info("Data Selected From Database !!!")
     });
+}
 
+function GET_CREDENTIALS_AFTER_LOGIN(input,callback){
+    connection.query(QUERY.SELECT_CREDENTIALS_FROM_NAME_LAST_DAD_GRANDPARENTS,[input.name,input.Last_name],(err,data) =>{
+        if(err){
+            callback(err,null)
+        }else{
+            console.log(data)
+            callback(data.rows[0],null)
+        }
+    })
 }
 function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
         console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email,input.Phone)
@@ -46,11 +56,10 @@ function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
 function FIND_USER_CREDENTIALS(Username,Password,callback){
     connection.query(QUERY.LOGIN_QUERY,[Username,Password],(err,data) =>{
         if(err){console.log(err);
-        logs.failedlogs.error("Something Went Wrong : "+err);
+         logs.failedlogs.error("Something Went Wrong : "+err);
          callback(err,null);
          }else{
          logs.logs.info("Success !!! Data from Credentials Table Has been Selected !!!");
-         logs.logs.info(`User ${Username.replace(Username,"******")} has Logged in `+new Date())
          callback(null,data.rows);
         }
     });
@@ -109,6 +118,15 @@ function SELECT_DATA_FROM_UUID(input,callback){
         }
     });
 }
+function SEARCH_DATA_FROM_SOCIAL(input,callback){
+    connection.query(QUERY.GET_SOCIAL_CREDENTIALS,[input.cin],(err,data) =>{
+        if(err){
+            callback(err,null)
+        }else{
+            callback(null,data.rows[0])
+        }
+    })
+}
 
 module.exports = {
     FIND_USER_CREDENTIALS,
@@ -117,7 +135,9 @@ module.exports = {
     SEARCH_CITIZEN_API1,
     SEARCH_CITIZEN_API2,
     MODIFY_DATABASE_CREDENTIALS,
-    SELECT_DATA_FROM_UUID
+    SELECT_DATA_FROM_UUID,
+    GET_CREDENTIALS_AFTER_LOGIN,
+    SEARCH_DATA_FROM_SOCIAL
 }
 
 

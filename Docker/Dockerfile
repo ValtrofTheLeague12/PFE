@@ -1,12 +1,14 @@
 FROM node:alpine3.19
 
-WORKDIR /app/PFE
+WORKDIR yassinethe3rd/pfe
 
-COPY . /app/PFE
+COPY ../package*.json ./
 
 RUN npm install
 
-EXPOSE 5050
+COPY . .
+
+EXPOSE 2020
 
 CMD ["node","API.js"]
 
