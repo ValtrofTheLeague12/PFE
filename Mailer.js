@@ -2,7 +2,6 @@ require('dotenv').config({path:".config/Mailer.env"});
 const Mailer = require('nodemailer');
 const loggers = require('./Loggers');
 const RANDOM = require('./Encryption');
-const KEY = RANDOM.RANDOM_STRING().substring(0,8);
 
 function SEND_EMAIL(subject,Output,emailAddress){
     const Sender = Mailer.createTransport({
@@ -36,8 +35,7 @@ loggers.logs.info(`Sucess !!! Email Sended to ${results}`);;
 }
 
 function SEND_SMS(input,phoneNumber){
-    
-    require('dotenv').config({path:'.config/SMS.env'});
+
     fetch("https://6g65l8.api.infobip.com/sms/2/text/advanced",{
         method:'POST',
         headers:{

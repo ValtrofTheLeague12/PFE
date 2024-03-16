@@ -83,19 +83,45 @@ function GET_APPLICATION_HTML(callback){
         data[sheet_name] = excel.utils.sheet_to_json(workbook.Sheets[sheet_name]);
     }
     var html = ``
+    const START_INDEX = 0
+    const END_INDEX = 0
     data[`Applications`].forEach(element => {
+         if(encrypt.DECRYPT_DATA(element.Status) == "Accepted"){
          html += `<tr><td>${element.Hash.substring(0,8)}</td>`+ 
          `<td>${element.CIN.substring(0,8)}</td>`+
          `<td>${element.Name.substring(0,8)}</td>`+
          `<td>${element['Last Name'].substring(0,8)}</td>`+
          `<td>${element.Demande.substring(0,8)}</td>`+
-         `<td>${encrypt.DECRYPT_DATA(element.Status)}</td>`+
+         `<td class ="text-success">${encrypt.DECRYPT_DATA(element.Status)}</td>`+
          `<td>${element.Date.substring(0,8)}</td>`+
          `<td>${element['Starting Date'].substring(0,8)}</td>`+
          `<td>${element['Ending Date '].substring(0,8)}</td>
          </tr>`
-    });
-       callback(html)
+         }else if(encrypt.DECRYPT_DATA(element.Status) == "en Cours"){
+            html += `<tr><td>${element.Hash.substring(0,8)}</td>`+ 
+            `<td>${element.CIN.substring(0,8)}</td>`+
+            `<td>${element.Name.substring(0,8)}</td>`+
+            `<td>${element['Last Name'].substring(0,8)}</td>`+
+            `<td>${element.Demande.substring(0,8)}</td>`+
+            `<td class ="text-primary">${encrypt.DECRYPT_DATA(element.Status)}</td>`+
+            `<td>${element.Date.substring(0,8)}</td>`+
+            `<td>${element['Starting Date'].substring(0,8)}</td>`+
+            `<td>${element['Ending Date '].substring(0,8)}</td>
+            </tr>`
+         }else{
+            html += `<tr><td>${element.Hash.substring(0,8)}</td>`+ 
+            `<td>${element.CIN.substring(0,8)}</td>`+
+            `<td>${element.Name.substring(0,8)}</td>`+
+            `<td>${element['Last Name'].substring(0,8)}</td>`+
+            `<td>${element.Demande.substring(0,8)}</td>`+
+            `<td class ="text-danger">${encrypt.DECRYPT_DATA(element.Status)}</td>`+
+            `<td>${element.Date.substring(0,8)}</td>`+
+            `<td>${element['Starting Date'].substring(0,8)}</td>`+
+            `<td>${element['Ending Date '].substring(0,8)}</td>
+            </tr>`
+         }
+          });
+     callback(html)
 }
 
 function GET_USER_APPLICATIONS_HTML(cin,callback){

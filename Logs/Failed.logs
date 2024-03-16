@@ -156,3 +156,7 @@
 {"level":"error","message":null}
 {"level":"error","message":null}
 {"level":"error","message":null}
+{"code":"08P01","file":"postgres.c","length":155,"level":"error","line":"1720","name":"error","routine":"exec_bind_message","severity":"ERREUR"}
+{"level":"error","message":"Something Went Wrong !!! : error: syntaxe en entrée invalide pour le type date : «  »"}
+{"level":"error","message":"Something Went Wrong !!! : error: syntaxe en entrée invalide pour le type date : «  »"}
+{"level":"error","message":"Something Went Wrong !!! : error: syntaxe en entrée invalide pour le type date : «  »"}

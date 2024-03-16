@@ -1,4 +1,4 @@
-POST http://localhost:2020/Login 
+POST http://localhost:2020/Login/VerifyUser 
 Content-Type: application/json
 
 {
@@ -14,8 +14,8 @@ Content-Type: application/json
     "lastname":"KingValtr",
     "Password":"123456",
     "Username":"Sneeko",
-    "Email":"123@gmail.com"
-    
+    "Email":"123@gmail.com",
+    "cin":"12345678"
 }
 ####
 POST http://localhost:2020/API1

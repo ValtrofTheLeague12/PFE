@@ -8,7 +8,7 @@ function RANDOM_STRING(){
 
 function ENCRYPT_PASSWORD(Password){
 let ENCRYPTION_DECRYPTION = new ALGORITHM(Password);
-return ENCRYPTION_DECRYPTION.encrypt(Password,RANDOM_STRING()).substring(0,8);
+return ENCRYPTION_DECRYPTION.encrypt(Password,RANDOM_STRING()).substring(0,6);
 }
 
 function ENCRYPT_DATA(Password){

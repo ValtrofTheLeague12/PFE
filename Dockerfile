@@ -1,8 +1,8 @@
-FROM node:alpine3.19
+FROM node:bullseye-slim
 
 WORKDIR yassinethe3rd/pfe
 
-COPY ../package*.json ./
+COPY .. ./
 
 RUN npm install
 

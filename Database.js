@@ -6,11 +6,11 @@ const logs = require('./Loggers');
 const {QUERY} = require('./Query');
 const Encryption = require("./Encryption")
 
-const connection = new pg.Client({
-    host:process.env.DATABASE_DOMAIN,
-    user:process.env.DATABASE_USERNAME,
-    password:process.env.DATABASE_PASSWORD, 
-    database:process.env.DATABASE_DATA_SOURCE,
+const connection = new pg.Pool({
+    host:"localhost",
+    user:"postgres",
+    password:"root", 
+    database:"PFE"
 })
 
 connection.connect((err) =>{
@@ -40,7 +40,7 @@ function GET_CREDENTIALS_AFTER_LOGIN(input,callback){
 }
 function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
         console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email,input.Phone)
-        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,8),input.name,input.lastname,input.Username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.cin],(err,data) =>{
+        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,5),input.name,input.lastname,input.username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.Phone],(err,data) =>{
         if(err) {
             console.log("Something Went Wrong : "+err);
             logs.failedlogs.error(err)
@@ -55,7 +55,8 @@ function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
 
 function FIND_USER_CREDENTIALS(Username,Password,callback){
     connection.query(QUERY.LOGIN_QUERY,[Username,Password],(err,data) =>{
-        if(err){console.log(err);
+        if(err){
+            console.log(err);
          logs.failedlogs.error("Something Went Wrong : "+err);
          callback(err,null);
          }else{
@@ -71,8 +72,11 @@ function SEARCH_CITIZEN_API1(input,callback){
             callback(err,null);
             logs.failedlogs.error("Something Went Wrong !!! : "+err);
         }else{
-            callback(null,results);
+            console.log(results)
+            console.log(results.fields)
+            console.log(results.rowCount)
             logs.logs.info("Sucess !!! Data Selected From First API");
+            callback(null,results);
         }
     })
 
@@ -109,7 +113,6 @@ function MODIFY_DATABASE_CREDENTIALS(input,callback){
 function SELECT_DATA_FROM_UUID(input,callback){
     connection.query(QUERY.SELECT_USER_FROM_UUID,[input],(err,data) =>{
         if(err){
-            connection.end()
             logs.failedlogs.error(err);
             callback(err,null);
         }else{
