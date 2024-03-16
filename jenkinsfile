@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Execute Node.js Script') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    script {
+                        git 'https://github.com/your/repository.git'
+                        
+                        sh 'npm install'
+                        
+                        sh 'API.js'
+                    }
+                }
+            }
+        }
+    }
+}
