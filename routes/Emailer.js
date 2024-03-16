@@ -4,7 +4,6 @@ const Emailer = require('../Mailer');
 const cors = require('cors')
 require('dotenv').config({path:"../.config/Pointer.env"})
 app.use(cors())
-const body_parser = require('body-parser')
 
 app.post('/EMAIL/CORDS', (req, res) => {
   try {

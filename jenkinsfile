@@ -6,11 +6,12 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        git 'https://github.com/your/repository.git'
+                        git 'https://github.com/ValtrofTheLeague12/PFE.git'
                         
                         sh 'npm install'
                         
                         sh 'API.js'
+                        echo "Sucess !!!"
                     }
                 }
             }
