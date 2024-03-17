@@ -4,15 +4,9 @@ pipeline {
     stages {
         stage('Execute Node.js Script') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    script {
-                        git 'https://github.com/ValtrofTheLeague12/PFE.git'
-                        
-                        sh 'npm install'
-                        
-                        sh 'API.js'
+                    script {                  
                         echo "Sucess !!!"
-                    }
+                   }
                 }
             }
         }
