@@ -1,13 +1,10 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Execute Node.js Script') {
+        stage('Hello') {
             steps {
-                    script {                  
-                        echo "Sucess !!!"
-                   }
-                }
+                echo 'Hello, world!'
             }
         }
     }
