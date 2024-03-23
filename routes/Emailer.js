@@ -22,12 +22,8 @@ app.post('/EMAIL/CORDS', (req, res) => {
 app.post('/SMS/CORDS', (req, res) => {
   try {
     const { Username, Password, UUID, Email, Phone } = req.body;
-    const input = `ACCOUNT CREDENTIALS :
-                   Your Username is: ${Username} \n
-                   Password: ${Password} \n
-                   Your UUID For Reset Password: ${UUID} \n
-                   Your Email For Reporting: ${Email} \n
-                   THANK YOU`;
+    const input = ` Your Username is: ${Username} \n Password: ${Password} \n Your UUID For Reset Password: ${UUID} \n Your Email For Reporting: ${Email} \n
+                   `;
     Emailer.SEND_SMS(input, Phone);
     res.json({ message: 'SMS sent successfully' });
   } catch (error) {

@@ -18,7 +18,7 @@ app.post('/Subscription/API1',(req,res) =>{
       const input = {
         name: citoyen.nom,
         lastname: citoyen.prenom,
-        username: Encryption.ENCRYPT_DATA(Account).substring(0,6),
+        username: Account,
         Password: randomUUID().substring(0,6),
         Email: Account.concat('@idara.tn'),
         Phone: req.body.Phone,
@@ -46,12 +46,12 @@ app.post('/Subscription/API1',(req,res) =>{
     console.log(req.body.data)
     SearchAPI2(req.body.data).then((citoyen) =>{
       console.log(citoyen)     
-        const Account = citoyen.nom + '.' + citoyen.prenom;
+        const Account = citoyen.nom + '.' + citoyen.prenom
         const input = {
         name: citoyen.nom,
         lastname: citoyen.prenom,
-        username: Encryption.ENCRYPT_DATA(Account).substring(0,6),
-        Password: randomUUID().substring(0,6),
+        username: Account,
+        Password: randomUUID().substring(0,8),
         Email: Account.concat('@idara.tn'),
         Phone: req.body.phone,
       }

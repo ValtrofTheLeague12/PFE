@@ -8,7 +8,7 @@ const {LocalStorage} = require('node-localstorage')
 const cors = require('cors')
 const local = new LocalStorage("./scratch");
 require('dotenv').config({path:"../.config/Pointer.env"})
-const file_manager = require("../FileManager");
+const file_manager = require("../../Users/medhe/OneDrive/Bureau/PFE/routes/FileManager");
 const { randomUUID } = require('crypto');
 let array = []
 
@@ -19,6 +19,7 @@ console.log(array)
 
 app.post('/SMS',(req,res) =>{
     let Key = array[Math.floor(Math.random() * array.length - 1)]
+    console.log(Key)
     local.setItem('SecretKey',Key)
     Emailer.SEND_SECRET_OTP_SMS(req.body.Phone,Key,(err,data) =>{
         if(err){

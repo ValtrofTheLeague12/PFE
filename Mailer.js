@@ -36,12 +36,12 @@ loggers.logs.info(`Sucess !!! Email Sended to ${results}`);;
 
 function SEND_SMS(input,phoneNumber){
 
-    fetch("https://6g65l8.api.infobip.com/sms/2/text/advanced",{
+    fetch("https://2vnvmp.api.infobip.com/sms/2/text/advanced",{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
             'Accept':'application/json',
-            "Authorization":`App 00f46d64b691b705b41c311513d2b59c-c9f95492-5a07-4d84-8b40-872bc15d420f`
+            "Authorization":`App 76abbdc16792dd29e2dac58d467a9e94-09eacc42-c976-439a-9a5f-6af579c5486a`
         },
         body:JSON.stringify({
             "messages":[{
@@ -60,7 +60,7 @@ function SEND_SMS(input,phoneNumber){
 function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
 // code from info bib API implementation
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "App 00f46d64b691b705b41c311513d2b59c-c9f95492-5a07-4d84-8b40-872bc15d420f");
+    myHeaders.append("Authorization", "App 76abbdc16792dd29e2dac58d467a9e94-09eacc42-c976-439a-9a5f-6af579c5486a");
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
     
@@ -81,12 +81,12 @@ function SEND_SECRET_OTP_SMS(PhoneNumber,SecretCode,callback){
         redirect: "follow"
     };
 
-    fetch("https://6g65l8.api.infobip.com/sms/2/text/advanced", requestOptions)
+    fetch("https://2vnvmp.api.infobip.com/sms/2/text/advanced", requestOptions)
         .then((response) => console.log(response.text()))
         .then((result) => callback(null,result))
         .catch((error) => {callback(error,null);
         console.log(error)});
-
+        
 }
 module.exports = {
     SEND_EMAIL,

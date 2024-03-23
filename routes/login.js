@@ -8,7 +8,7 @@ const {LocalStorage} = require('node-localstorage')
 const cors = require('cors')
 const local = new LocalStorage("./scratch");
 require('dotenv').config({path:"../.config/Pointer.env"})
-const file_manager = require("../FileManager")
+const file_manager = require("../../Users/medhe/OneDrive/Bureau/PFE/routes/FileManager")
 local.setItem("SecretCode",Encryption.RANDOM_STRING().substring(0,8));
 
 app.post('/AfterLogin/getCredentialsFromLogin',(req,res) =>{

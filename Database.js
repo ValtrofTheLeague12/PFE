@@ -4,7 +4,7 @@ const pg = require('pg');
 const security = require('./Encryption');
 const logs = require('./Loggers');
 const {QUERY} = require('./Query');
-const Encryption = require("./Encryption")
+const { randomUUID } = require('crypto');
 
 const connection = new pg.Pool({
     host:"localhost",
@@ -38,9 +38,29 @@ function GET_CREDENTIALS_AFTER_LOGIN(input,callback){
         }
     })
 }
+function INSERT_DEMANDE(input,callback){
+    const underaged = input.age >= 18 ? false : true;
+    const FatherCIN = input.age >= 18 ? 'Above 18':input.guardianPereCIN
+    const MotherCIN = input.age >= 18 ? 'Above 18':input.guardianMereCIN
+    const jobType = input.age >= 18 ? input.jobType:'Under 18'
+    const SpouseName  = input.age >= 18 ? input.spouseName : 'Under 18'
+    const spouseLastName = input.age >=18 ? input.spouseLastName : 'Under 18'
+    const ID = input.age >= 18 ? input.cin : input.Social_id
+    const KIDS = input.age >= 18 ? input.numberOfKids : 0
+
+    connection.query(QUERY.INSERT_NEW_DEMAND,[input.nom,input.prenom,ID,input.dateNaissance,input.age,input.Handicap,input.HandicapSelected,input.annualIncome
+    ,input.category,input.consultat,input.disabilities,input.disabilitiesSelected,input.fatherLastName,input.fatherName,input.governorate,jobType,input.motherLastName,input.motherName,
+     KIDS,SpouseName,spouseLastName,input.files,underaged,"Pending...",randomUUID().substring(0,10),"Pending...","Pending...",FatherCIN,MotherCIN,"On Hold...","On Hold..."],(err,data) =>{
+        if(err){
+            callback(err,null)
+        }else{
+            callback(null,data.rows[0])
+        }
+     })
+}
 function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
         console.log(security.RANDOM_STRING(),input.name,input.lastname,input.Password,input.Email,input.Phone)
-        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[security.RANDOM_STRING().substring(0,5),input.name,input.lastname,input.username,security.ENCRYPT_PASSWORD(input.Password),input.Email,input.Phone],(err,data) =>{
+        connection.query(QUERY.INSERT_CREDENTIALS_NEW_RECORDS,[randomUUID().substring(0,6),input.name,input.lastname,input.username,input.Password,input.Email,input.Phone],(err,data) =>{
         if(err) {
             console.log("Something Went Wrong : "+err);
             logs.failedlogs.error(err)
@@ -50,7 +70,6 @@ function INSERT_ACCOUNTS_NEW_RECORD(input,callback){
         logs.logs.info("Success !!! new User has Been Inserted !!!");
         callback(null,data.rows[0]);
     });
-    
 }
 
 function FIND_USER_CREDENTIALS(Username,Password,callback){
@@ -131,6 +150,248 @@ function SEARCH_DATA_FROM_SOCIAL(input,callback){
     })
 }
 
+function GET_SPOUSE_DATA(input,callback){
+     connection.query(QUERY.SELECT_SOCIAL_CREDENTIALS_FROM_FAMILLY,[input.last,input.name],(err,data) =>{
+        if(err){
+            callback(err,null)
+        }else{
+            callback(null,data.rows[0])
+        }
+     })
+}
+
+function GENERATE_HTML_RECORDS(start,limit,callback){
+const startIndex = (start - 1) * limit
+const endIndex = start * limit
+var results = {}
+connection.query(QUERY.ADMIN_SELECT_ALL_DEMANDS,(err,data) =>{
+   if(err){
+    callback(err,null)
+   }else{
+    var html = ``
+    const totalPages = Math.ceil(data.rows.length / 10);
+    const currentPageData = data.rows.slice(startIndex, endIndex);
+    for(let Demand of data.rows){
+        console.log(Demand)
+        if(Demand.results === 'Pending...'){
+          let cin = Demand.cin.substring(0,3)+"*****";
+           html += (
+         `<tr><td>${Demand.hash}</td>`+
+        `<td>${cin}</td>`+`<td>${Demand.nom}</td>`+
+          `<td>${Demand.prenom}</td>`+
+          `<td>${Demand.age}</td>`+
+          `<td>${Demand.category}</td>`+`
+           <td onclick ="OpenFile(this)" class ="text-primary"><u>${Demand.files}</u></td>
+           <td class="text-muted">${Demand.results}</td>`+
+          `<td>${new Date(Date.parse(Demand.date_submitted)).toISOString()}</td>`+
+          `<td class ="text-muted">${Demand.date_of_starting}</td>`
+          +`<td class ="text-muted">${Demand.date_of_finishing}</td>`+
+          `<td><button id = "actionAccept" class ="btn btn-outline-success" onclick = "ACC_DEMANDE(this)">Accept</button><button id = "actionRefuse" class ="btn btn-outline-danger" onclick = "REF_DEMANDE(this)">Refuse</button></td></tr>`)
+        }else if(Demand.results === 'Accepted'){
+            let cin = Demand.cin.substring(0,3)+"*****" 
+            html += (`<tr><td>${Demand.hash}</td>`+`<td>${cin}</td>`+`<td>${Demand.nom}</td>`+
+            `<td>${Demand.prenom}</td>`+
+            `<td>${Demand.age}</td>`+
+            `<td>${Demand.category}</td>`+`
+            <td onclick = "OpenFile(this)" class ="text-primary"><u>${Demand.files}</u></td>
+             <td class="text-success">${Demand.results}</td>`+
+            `<td>${new Date(Date.parse(Demand.date_submitted)).toISOString()}</td>`+
+            `<td class ="text-success">${Demand.date_of_starting}</td>`
+            +`<td class="text-success">${Demand.date_of_finishing}</td>`+
+            `<td><button class = 'btn btn-outline-success'>Send Him Notification SMS !!!</button></td></tr>`)
+        }else{
+            let cin = Demand.cin.substring(0,3)+"*****"
+            html += (`<tr><td>${Demand.hash}</td>`+`<td>${cin}</td>`+`<td>${Demand.nom}</td>`+
+            `<td>${Demand.prenom}</td>`+
+            `<td>${Demand.age}</td>`+
+            `<td>${Demand.category}</td>`+`
+             <td onclick ="OpenFile(this)" class ="text-primary"><u>${Demand.files}</u></td>
+             <td class="text-danger">${Demand.results}</td>`+
+            `<td>${new Date(Date.parse(Demand.date_submitted)).toISOString()}</td>`+
+            `<td class = "text-danger">${Demand.date_of_starting}</td>`
+            +`<td class ="text-danger">${Demand.date_of_finishing}</td>`+
+            `<td><center><button class = "btn btn-outline-danger" onclick = "alert('${Demand.Description_en_cas_refus}')">Check Description</button></center></td></tr>
+            `)
+        }
+    }
+    nav_html = generatePageNumbers(startIndex,totalPages)
+    results.html = html
+    callback(null,{html:results.html,nav:nav_html})
+   }
+})
+}
+//chat GPT Paginateur
+function generatePageNumbers(currentPage, totalPages) {
+    let pageNumbersHTML = '<ul class="pagination">';
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === currentPage) {
+            pageNumbersHTML += `<li class="page-item">${i}</li>`;
+        } else {
+            pageNumbersHTML += `<li class ="">${i}</li>`;
+        }
+    }
+    pageNumbersHTML += '</ul>';
+    return pageNumbersHTML;
+}
+
+function REFUSE_DEMANDE_DB(input,callback){
+   connection.query(QUERY.MODIFY_DEMANDE_REFUS,[input.description,input.hash],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        callback(null,data)
+    }
+   })
+}
+function GET_ALL_USER_DEMANDS_FROM_DB_WITH_ID(input,callback){
+  connection.query(QUERY.GET_DEMANDS_WITH_CIN_OR_SOCIAL_ID,[input.cin],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        var html = ``
+        for(let Demand of data.rows){
+            console.log(Demand)
+            if(Demand.results === 'Pending...'){
+               html += (
+              `<tr><td>${Demand.hash}</td>`+
+              `<td>${Demand.cin}</td>`+
+              `<td>${Demand.date_submitted}</td>`+
+              `<td onclick ="OpenFile(this)" class ="text-primary"><u>${Demand.files}</u></td>`+
+              `<td>${Demand.category}</td>`+
+              `<td class ="text-primary">${Demand.results}</td>`+
+              `<td class ="text-primary">${Demand.date_of_starting}</td>`
+              +`<td class ="text-primary">${Demand.date_of_finishing}</td>`+
+              `<td><button id = "checkDetails" class ="btn btn-outline-primary" onclick = "
+              localStorage.setItem('Spouse_Name','${Demand.spouse_last_name}')
+              localStorage.setItem('Spouse_Last','${Demand.spouse_name}')
+              localStorage.setItem('id','${Demand.id}')
+              localStorage.setItem('Job','${Demand.job_type}');
+              localStorage.setItem('Father_CIN','${Demand.GardianFatherCIN}');
+              localStorage.setItem('Mother_CIN','${Demand.GardianMotherCIN}');
+              DETAILS(this);
+              ">Check Submitted Details</button></td></tr>`)
+            }else if(Demand.results === 'Refused'){
+                html += (
+                    `<tr><td>${Demand.hash}</td>`+
+                    `<td>${Demand.cin}</td>`+
+                    `<td>${Demand.date_submitted}</td>`+
+                    `<td onclick ="OpenFile(this)" class ="text-primary"><u>${Demand.files}</u></td>`+
+                    `<td>${Demand.category}</td>`+
+                    `<td class = 'text-danger'>${Demand.results}</td>`+
+                    `<td class ="text-danger">${Demand.date_of_starting}</td>`
+                    +`<td class ="text-danger">${Demand.date_of_finishing}</td>`+
+                    `<td><button id = "Recours" class ="btn btn-outline-danger" onclick =
+                     "localStorage.setItem('ID','${Demand.id}');
+                     $('#exampleModal').find('#reason').val('${Demand.Description_en_cas_refus}');
+                      RECOURS(this)">Resend Demande</button></td></tr>`)
+            }else{
+                html += (
+                    `<tr><td>${Demand.hash}</td>`+
+                    `<td>${Demand.cin}</td>`+
+                    `<td>${Demand.date_submitted}</td>`+
+                    `<td onclick ="OpenFile(this)" class ="text-primary"><u>${Demand.files}</u></td>`+
+                    `<td>${Demand.category}</td>`+
+                    `<td class ="text-success">${Demand.results}</td>`+
+                    `<td class ="text-success">${Demand.date_of_starting}</td>`
+                    +`<td class ="text-success">${Demand.date_of_finishing}</td>`+
+                    `<td><button id = "PrintRecus" class ="btn btn-outline-success" onclick = "PRINT_RECIETE(this)">Print Receipt</button></td></tr>`)
+            }
+        }
+    }
+    callback(null,html)
+  })
+}
+
+function ACCEPT_DEMANDE(input,callback){
+connection.query(QUERY.MOODIFY_DEMANDE_ACCEPT,[input.date_of_starting,input.date_of_ending,input.hash],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        callback(null,"Accepted !!!")
+    }
+})
+}
+
+function GET_ALL_RECOURS_DEMANDS(input,callback){
+connection.query(QUERY.GET_RECOURS,[input.id],(err,data) =>{
+    var html = ""
+  if(err){
+    callback(err,null)
+  }else{
+    for(let Demand of data.rows){
+        console.log(Demand)
+        if(Demand.Resultat === "On Hold..."){
+        html += `<tr>
+         <td>${Demand.Hash}</td>
+         <td>${Demand.Nom}</td>`+
+        `<td>${Demand.Prenom}</td>`+
+        `<td>${Demand.ID}</td>`
+        `<td>${Demand.id_demande}</td>`+
+        `<td>${Demand.additional_files}/td>`+
+        `<td>${Demand.Recours_Service}</td>`+
+        `<td>${Demand.Date_of_submission}</td>`+
+        `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`
+        }else if(Demand.Resultat === "Accepted"){
+            html += `<tr>
+            <td>${Demand.Hash}</td>
+            <td>${Demand.Nom}</td>`+
+           `<td>${Demand.Prenom}</td>`+
+           `<td>${Demand.ID}</td>`
+           `<td>${Demand.id_demande}</td>`+
+           `<td>${Demand.additional_files}/td>`+
+           `<td>${Demand.Recours_Service}</td>`+
+           `<td>${Demand.Date_of_submission}</td>`+
+           `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`
+        }else{
+            html += `<tr>
+            <td>${Demand.Hash}</td>
+            <td>${Demand.Nom}</td>`+
+           `<td>${Demand.Prenom}</td>`+
+           `<td>${Demand.ID}</td>`+
+           `<td>${Demand.id_demande}</td>`+
+           `<td>${Demand.additional_files}/td>`+
+           `<td>${Demand.Recours_Service}</td>`+
+           `<td>${Demand.Date_of_submission}</td>`+
+           `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`
+        }
+    }
+    callback(null,html)
+  }
+
+})
+}
+function REFUSE_RECOURS(){
+
+}
+function ACCEPT_RECOURS(){
+
+}
+
+function INSERT_NEW_RECOURS(input,callback){
+connection.query(QUERY.INSERT_NEW_RECOURS,[input.id_demande,input.name,input.lastname,input.id,input.a_file,input.Descrîption,'on Hold...','on Hold...',new Date().toISOString(),input.service,"On Hold...","On Hold..."],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        callback(null,data.rowCount)
+    }
+})
+}
+
+function GET_PARENTS_CIN(input,callback){
+
+}
+
+GET_ALL_RECOURS_DEMANDS({
+    id:87957818
+},(err,data) => {
+    if(err){
+        console.log(err)
+    }else{
+        console.log(data)
+    }
+})
+
+
 module.exports = {
     FIND_USER_CREDENTIALS,
     INSERT_ACCOUNTS_NEW_RECORD,
@@ -140,7 +401,17 @@ module.exports = {
     MODIFY_DATABASE_CREDENTIALS,
     SELECT_DATA_FROM_UUID,
     GET_CREDENTIALS_AFTER_LOGIN,
-    SEARCH_DATA_FROM_SOCIAL
+    SEARCH_DATA_FROM_SOCIAL,
+    GET_SPOUSE_DATA,
+    INSERT_DEMANDE,
+    GENERATE_HTML_RECORDS,
+    REFUSE_DEMANDE_DB,
+    GET_PARENTS_CIN,
+    GET_ALL_USER_DEMANDS_FROM_DB_WITH_ID,
+    INSERT_NEW_RECOURS,
+    ACCEPT_DEMANDE
+    
 }
+
 
 
