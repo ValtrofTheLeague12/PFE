@@ -312,63 +312,108 @@ connection.query(QUERY.MOODIFY_DEMANDE_ACCEPT,[input.date_of_starting,input.date
 })
 }
 
-function GET_ALL_RECOURS_DEMANDS(input,callback){
-connection.query(QUERY.GET_RECOURS,[input.id],(err,data) =>{
+function GET_ALL_RECOURS_DEMANDS_FOR_ADMIN(callback){
+connection.query(QUERY.GET_RECOURS,(err,data) =>{
     var html = ""
   if(err){
     callback(err,null)
   }else{
     for(let Demand of data.rows){
         console.log(Demand)
-        if(Demand.Resultat === "On Hold..."){
+        if(Demand.Resultat === "on Hold..."){
         html += `<tr>
          <td>${Demand.Hash}</td>
          <td>${Demand.Nom}</td>`+
         `<td>${Demand.Prenom}</td>`+
-        `<td>${Demand.ID}</td>`
-        `<td>${Demand.id_demande}</td>`+
-        `<td>${Demand.additional_files}/td>`+
+        `<td>${Demand.ID}</td>`+
+        `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
+         DEMANDE(this)">${Demand.id_demande}</td>`+
+        `<td>${Demand.additional_files}</td>`+
         `<td>${Demand.Recours_Service}</td>`+
+        `<td class = "text-muted">${Demand.Resultat}</td>`+
         `<td>${Demand.Date_of_submission}</td>`+
-        `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`
+        `<td><button class ="btn btn-outline-success" onclick ="
+        ACCEPT_RECOURS_BY_ADMIN(this)
+        ">Accept</button> <button class ="btn btn-outline-danger" onclick = "
+        console.log('clicked')
+        REFUSE_RECOURS_BY_ADMIN(this)
+        ">Refuser</button></td></tr>`;
         }else if(Demand.Resultat === "Accepted"){
-            html += `<tr>
-            <td>${Demand.Hash}</td>
-            <td>${Demand.Nom}</td>`+
-           `<td>${Demand.Prenom}</td>`+
-           `<td>${Demand.ID}</td>`
-           `<td>${Demand.id_demande}</td>`+
-           `<td>${Demand.additional_files}/td>`+
-           `<td>${Demand.Recours_Service}</td>`+
-           `<td>${Demand.Date_of_submission}</td>`+
-           `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`
+        html += `<tr>
+        <td>${Demand.Hash}</td>
+        <td>${Demand.Nom}</td>`+
+        `<td>${Demand.Prenom}</td>`+
+        `<td>${Demand.ID}</td>`+
+        `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
+        DEMANDE(this)>${Demand.id_demande}</td>`+
+        `<td>${Demand.additional_files}</td>`+
+        `<td>${Demand.Recours_Service}</td>`+
+        `<td>${Demand.Resultat}</td>`+
+        `<td>${Demand.Date_of_submission}</td>`+
+        `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`;
         }else{
-            html += `<tr>
-            <td>${Demand.Hash}</td>
-            <td>${Demand.Nom}</td>`+
-           `<td>${Demand.Prenom}</td>`+
-           `<td>${Demand.ID}</td>`+
-           `<td>${Demand.id_demande}</td>`+
-           `<td>${Demand.additional_files}/td>`+
-           `<td>${Demand.Recours_Service}</td>`+
-           `<td>${Demand.Date_of_submission}</td>`+
-           `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`
+       html += `<tr>
+       <td>${Demand.Hash}</td>
+       <td>${Demand.Nom}</td>`+
+      `<td>${Demand.Prenom}</td>`+
+      `<td>${Demand.ID}</td>`+
+      `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
+      DEMANDE(this)>${Demand.id_demande}</td>`+
+      `<td>${Demand.additional_files}</td>`+
+      `<td>${Demand.Recours_Service}</td>`+
+      `<td>${Demand.Resultat}</td>`+
+      `<td>${Demand.Date_of_submission}</td>`+
+      `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-danger">Refuser</button></td></tr>`;
         }
     }
     callback(null,html)
   }
+})
 
+}
+function REFUSE_RECOURS(input,callback){
+connection.query(QUERY.REFUSE_RECOURS,[input.description,input.hash],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        REFUSE_DEMANDE_DB(input,(err,data) =>{
+            if(err){
+                callback(err,null)
+            }else{
+                callback(null,data)
+            }
+        })
+    }
 })
 }
-function REFUSE_RECOURS(){
-
+function ACCEPT_RECOURS(input,callback){
+connection.query(QUERY.ACCEPT_RECOURS,[input.date_of_starting,input.date_of_ending,input.hash],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        ACCEPT_DEMANDE(input,(err,data) =>{
+            if(err){
+                callback(err,null);
+            }else{
+                callback(null,data)
+            }
+        })
+    }
+})
 }
-function ACCEPT_RECOURS(){
+function GET_DEMANDE_BY_ID(input,callback){
+    connection.query(QUERY.GET_DEMANDE_BY_ID,[input.id],(err,data)=>{
+        if(err){
+            callback(null,err)
+        }else{
+            callback(null,data)
+        }
+    })
 
 }
 
 function INSERT_NEW_RECOURS(input,callback){
-connection.query(QUERY.INSERT_NEW_RECOURS,[input.id_demande,input.name,input.lastname,input.id,input.a_file,input.Descrîption,'on Hold...','on Hold...',new Date().toISOString(),input.service,"On Hold...","On Hold..."],(err,data) =>{
+connection.query(QUERY.INSERT_NEW_RECOURS,[input.id_demande,input.name,input.lastname,input.id,input.description,input.a_file,'on Hold...','on Hold...',new Date().toISOString(),input.service,"On Hold...","On Hold...",input.Hash,"On Hold..."],(err,data) =>{
     if(err){
         callback(err,null)
     }else{
@@ -381,15 +426,6 @@ function GET_PARENTS_CIN(input,callback){
 
 }
 
-GET_ALL_RECOURS_DEMANDS({
-    id:87957818
-},(err,data) => {
-    if(err){
-        console.log(err)
-    }else{
-        console.log(data)
-    }
-})
 
 
 module.exports = {
@@ -409,7 +445,11 @@ module.exports = {
     GET_PARENTS_CIN,
     GET_ALL_USER_DEMANDS_FROM_DB_WITH_ID,
     INSERT_NEW_RECOURS,
-    ACCEPT_DEMANDE
+    ACCEPT_DEMANDE,
+    GET_ALL_RECOURS_DEMANDS_FOR_ADMIN,
+    GET_DEMANDE_BY_ID,
+    ACCEPT_RECOURS,
+    REFUSE_RECOURS
     
 }
 

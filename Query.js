@@ -39,9 +39,12 @@ const QUERY = {
     MODIFY_DEMANDE_REFUS:`UPDATE "Demande" SET "date_of_starting" = 'Refused' , "date_of_finishing" = 'Refused' , "results" = 'Refused' , "Description_en_cas_refus" = $1 where "hash" = $2`,
     MOODIFY_DEMANDE_ACCEPT:`UPDATE "Demande" SET "date_of_starting" = $1, "date_of_finishing" = $2 , "results" = 'Accepted', "Description_en_cas_refus" = 'Demande at The Moment Accepted not Refused' where "hash" = $3`,
     GET_DEMANDS_WITH_CIN_OR_SOCIAL_ID:'SELECT * from "Demande" where "cin" = $1',
-    INSERT_NEW_RECOURS: `INSERT INTO "Recours" ("id_demande", "Nom", "Prenom", "ID", "Description", "additional_files", "Resultat","Treated_by","Date_of_submission","Recours_Service","Date_of_Starting","Date_of_finishing") 
-                        VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10,$11,$12) RETURNING *`,
-    GET_RECOURS:`SELECT * FROM "Recours" WHERE "ID" = $1`
+    INSERT_NEW_RECOURS: `INSERT INTO "Recours" ("id_demande", "Nom", "Prenom", "ID", "Description", "additional_files", "Resultat","Treated_by","Date_of_submission","Recours_Service","Date_of_Starting","Date_of_finishing","Hash","Description_en_cas_refus") 
+                        VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10,$11,$12,$13,$14) RETURNING *`,
+    GET_RECOURS:`SELECT * FROM "Recours"`,
+    GET_DEMANDE_BY_ID:`SELECT * FROM "Demande" where "id" = $1`,
+    ACCEPT_RECOURS:`UPDATE "Recours" SET "Resultat" = 'Accepted' , "Date_of_Starting" = $1 , "Date_of_finishing" = $2 where "Hash" = $3;`,
+    REFUSE_RECOURS:`UPDATE "Recours" SET "Resultat" = 'Refused' ,"Description_en_cas_refus" = $1, "Date_of_Starting" = 'Refused' , "Date_of_finishing" = 'Refused' where "Hash" = $2;`
 };
 
 module.exports = {
