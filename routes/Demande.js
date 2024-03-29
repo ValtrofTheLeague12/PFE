@@ -1,6 +1,7 @@
 const Express = require('express')
 const db = require('../Database')
 const app = Express.Router();
+const Logs  = require('../Loggers')
 
 
 app.post('/Insert',(req,res) =>{
@@ -9,6 +10,8 @@ app.post('/Insert',(req,res) =>{
         console.log(err)
         res.json({error:err})
     }else{
+       const ID = data.cin.substring(0,3)+'*****'
+        Logs.logs.info('new Demande Has Been Requested in '+new Date() + 'for User with ID : '+ID)
         res.json({"Results":"Inserted..."})
     }
   })
@@ -52,6 +55,8 @@ app.post('/Modify/Results/Failure',(req,res) =>{
     if(err){
       res.json({error:err})
     }else{
+      const ID = data.cin.substring(0,3)+'*****'
+      Logs.logs.info('new Demande Has Been Requested in '+new Date() + 'for User with ID : '+ID)
       res.json({"Modified":"true"})
     }
    })
@@ -62,6 +67,8 @@ app.post('/Modify/Results/Accept',(req,res) =>{
     if(err){
       res.json({erreur:err})
     }else{
+      const ID = data.cin.substring(0,3)+'*****'
+      Logs.logs.info('new Demande Has Been Accepted in '+new Date() + 'for User with ID : '+ID)
       res.json({results:data})
     }
   })
@@ -86,6 +93,8 @@ db.INSERT_NEW_RECOURS(req.body,(err,data) =>{
   if(err){
     res.json({error:err})
   }else{
+    const ID = data.ID.substring(0,3)+'*****'
+    Logs.logs.info('new Reapplication Has Been Accepted in '+new Date() + 'for User with ID : '+ID)
     res.json({data:'inserted...'})
   }
 })
@@ -96,6 +105,8 @@ app.post('/Modify/Recours/Results/Accept',(req,res) =>{
     if(err){
       res.json({error:err})
     }else{
+      const ID = data.cin.substring(0,3)+'*****'
+      Logs.logs.info('new Reapplication Has Been Accepted in '+new Date() + 'for User with ID : '+ID)
       res.json({
         results:data
       })
@@ -109,6 +120,8 @@ console.log(req.body)
       console.log(err)
       res.json({error:err})
     }else{
+      const ID = data.cin.substring(0,3)+'*****'
+      Logs.logs.info('new Reapplications Has Been Refused in '+new Date() + 'for User with ID : '+ID)
       res.json({results:data})
     }
   })
@@ -125,6 +138,35 @@ app.post('/Info/getDemandByID',(req,res) =>{
     }
    })
 })
+app.get('/Info/Statistics',(req,res) =>{
+  db.STATISTICS((err,data) => {
+      if(err){
+        res.json({error:err})
+      }else{
+        res.json({results:data})
+      }
+  })
+})
 
+
+app.get('/Info/Statistics/Category',(req,res) => {
+  const Statistics = [{Demande:null},{Recours:null}]
+db.STATISTICS_PER_REQUEST_TYPE((err,data) =>{
+  if(err){
+    res.json({error:err})
+  }else{
+    Statistics[0].Demande = data;
+     db.STATISTICS_PER_RECOURS_TYPE((err ,data) =>{
+      if(err){
+        res.json({error:err})
+      }else{
+        Statistics[1].Recours = data
+        res.json({data:Statistics})
+      }
+     })
+  }
+})  
+
+})
 
 module.exports = {Demand:app}

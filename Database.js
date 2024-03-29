@@ -210,7 +210,7 @@ connection.query(QUERY.ADMIN_SELECT_ALL_DEMANDS,(err,data) =>{
             `<td>${new Date(Date.parse(Demand.date_submitted)).toISOString()}</td>`+
             `<td class = "text-danger">${Demand.date_of_starting}</td>`
             +`<td class ="text-danger">${Demand.date_of_finishing}</td>`+
-            `<td><center><button class = "btn btn-outline-danger" onclick = "alert('${Demand.Description_en_cas_refus}')">Check Description</button></center></td></tr>
+            `<td><center><button class = "btn btn-outline-danger" onclick = "alert('${Demand.Description_en_cas_refus}')">Send Him SMS Notification</button></center></td></tr>
             `)
         }
     }
@@ -307,7 +307,7 @@ connection.query(QUERY.MOODIFY_DEMANDE_ACCEPT,[input.date_of_starting,input.date
     if(err){
         callback(err,null)
     }else{
-        callback(null,"Accepted !!!")
+        callback(null,data.rows[0])
     }
 })
 }
@@ -339,31 +339,31 @@ connection.query(QUERY.GET_RECOURS,(err,data) =>{
         REFUSE_RECOURS_BY_ADMIN(this)
         ">Refuser</button></td></tr>`;
         }else if(Demand.Resultat === "Accepted"){
-        html += `<tr>
-        <td>${Demand.Hash}</td>
-        <td>${Demand.Nom}</td>`+
-        `<td>${Demand.Prenom}</td>`+
-        `<td>${Demand.ID}</td>`+
-        `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
-        DEMANDE(this)>${Demand.id_demande}</td>`+
-        `<td>${Demand.additional_files}</td>`+
-        `<td>${Demand.Recours_Service}</td>`+
-        `<td>${Demand.Resultat}</td>`+
-        `<td>${Demand.Date_of_submission}</td>`+
-        `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-success">Refuser</button></td></tr>`;
+            html += `<tr>
+            <td>${Demand.Hash}</td>
+            <td>${Demand.Nom}</td>`+
+           `<td>${Demand.Prenom}</td>`+
+           `<td>${Demand.ID}</td>`+
+           `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
+            DEMANDE(this)">${Demand.id_demande}</td>`+
+           `<td>${Demand.additional_files}</td>`+
+           `<td>${Demand.Recours_Service}</td>`+
+           `<td class = "text-muted">${Demand.Resultat}</td>`+
+           `<td>${Demand.Date_of_submission}</td>`+
+           `<td><button class ="btn btn-outline-success" onclick ="SEND_SMS(this)">Send SMS Notifications</button></td></tr>`; 
         }else{
-       html += `<tr>
-       <td>${Demand.Hash}</td>
-       <td>${Demand.Nom}</td>`+
-      `<td>${Demand.Prenom}</td>`+
-      `<td>${Demand.ID}</td>`+
-      `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
-      DEMANDE(this)>${Demand.id_demande}</td>`+
-      `<td>${Demand.additional_files}</td>`+
-      `<td>${Demand.Recours_Service}</td>`+
-      `<td>${Demand.Resultat}</td>`+
-      `<td>${Demand.Date_of_submission}</td>`+
-      `<td><button class ="btn btn-success">Accept</button> <button class ="btn btn-danger">Refuser</button></td></tr>`;
+            html += `<tr>
+            <td>${Demand.Hash}</td>
+            <td>${Demand.Nom}</td>`+
+           `<td>${Demand.Prenom}</td>`+
+           `<td>${Demand.ID}</td>`+
+           `<td class ="text-primary" style ="text-decoration:underline" onclick ="localStorage.setItem('Description','${Demand.Description}');
+            DEMANDE(this)">${Demand.id_demande}</td>`+
+           `<td>${Demand.additional_files}</td>`+
+           `<td>${Demand.Recours_Service}</td>`+
+           `<td class = "text-muted">${Demand.Resultat}</td>`+
+           `<td>${Demand.Date_of_submission}</td>`+
+           `<td><button class ="btn btn-outline-danger" onclick ="SEND_SMS(this)">Send SMS Notifications</button></td></tr>`;
         }
     }
     callback(null,html)
@@ -395,7 +395,7 @@ connection.query(QUERY.ACCEPT_RECOURS,[input.date_of_starting,input.date_of_endi
             if(err){
                 callback(err,null);
             }else{
-                callback(null,data)
+                callback(null,data.rows[0])
             }
         })
     }
@@ -423,10 +423,238 @@ connection.query(QUERY.INSERT_NEW_RECOURS,[input.id_demande,input.name,input.las
 }
 
 function GET_PARENTS_CIN(input,callback){
+    connection.query(QUERY.SELECT_GARDIANS_CIN,[input.name,input.lastname],(err,data) =>{
+        if(err){
+            callback(err,null)
+        }else{
+            callback(null,data.rows[0])
+        }
+    })
+}
 
+function STATISTICS_PER_REQUEST_TYPE(callback){
+    DATA_DEMANDE_CAT = [{TMP:0},{AMG1:0},{AMG2:0},{CARTE_HANDICAPE:0}],
+    DATA_PER_DEMANDE_CAT = []
+    STATISTICS_DEMANDE_CATEGORY = []
+    AMG1  = []
+    AMG2 = []
+    TMP = []
+    CARTE_HANDICAPE = []
+
+    connection.query(QUERY.STATISTICS_DEMANDE,(err,data) =>{
+        if(err){
+            callback(err,null);
+        }else{
+            for(let Demande of data.rows){
+               if(Demande.category == 'AMG1'){
+                AMG1.push(Demande)
+               }else if(Demande.category == 'AMG2'){
+                AMG2.push(Demande)
+               }else if(Demande.category == 'TMP'){
+                TMP.push(Demande)
+               }else{
+                CARTE_HANDICAPE.push(Demande)
+               }
+            }
+            DATA_DEMANDE_CAT[0].TMP = TMP.length
+            DATA_DEMANDE_CAT[1].AMG1 = AMG1.length
+            DATA_DEMANDE_CAT[2].AMG2 = AMG2.length
+            DATA_DEMANDE_CAT[3].CARTE_HANDICAPE = CARTE_HANDICAPE.length
+            PER_AMG1 = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[1].AMG1 / data.rows.length) * 100
+            PER_TMP = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[0].TMP / data.rows.length) * 100
+            PER_CARTE_HANDICAPE = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[3].CARTE_HANDICAPE / data.rows.length) * 100
+            PER_AMG2 = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[2].AMG2 / data.rows.length) * 100
+            DATA_PER_DEMANDE_CAT.push({TMP:PER_TMP})       
+            DATA_PER_DEMANDE_CAT.push({AMG1:PER_AMG1}) 
+            DATA_PER_DEMANDE_CAT.push({AMG2:PER_AMG2}) 
+            DATA_PER_DEMANDE_CAT.push({CARTE_HANDICAPE:PER_CARTE_HANDICAPE})   
+            STATISTICS_DEMANDE_CATEGORY.push(DATA_PER_DEMANDE_CAT)
+            STATISTICS_DEMANDE_CATEGORY.push(DATA_DEMANDE_CAT)
+            console.log(STATISTICS_DEMANDE_CATEGORY)
+            callback(null,STATISTICS_DEMANDE_CATEGORY)
+        }
+    })
+}
+
+function STATISTICS_PER_RECOURS_TYPE(callback){
+    DATA_DEMANDE_CAT = [{TMP:0},{AMG1:0},{AMG2:0},{CARTE_HANDICAPE:0}],
+    DATA_PER_DEMANDE_CAT = []
+    STATISTICS_DEMANDE_CATEGORY = []
+    AMG1  = []
+    AMG2 = []
+    TMP = []
+    CARTE_HANDICAPE = []
+
+    connection.query(QUERY.STATISTICS_RECOURS,(err,data) =>{
+        if(err){
+            callback(err,null);
+        }else{
+            for(let Demande of data.rows){
+               if(Demande.Recours_Service == 'AMG1'){
+                AMG1.push(Demande)
+               }else if(Demande.Recours_Service == 'AMG2'){
+                AMG2.push(Demande)
+               }else if(Demande.Recours_Service == 'TMP'){
+                TMP.push(Demande)
+               }else{
+                CARTE_HANDICAPE.push(Demande)
+               }
+            }
+            DATA_DEMANDE_CAT[0].TMP = TMP.length
+            DATA_DEMANDE_CAT[1].AMG1 = AMG1.length
+            DATA_DEMANDE_CAT[2].AMG2 = AMG2.length
+            DATA_DEMANDE_CAT[3].CARTE_HANDICAPE = CARTE_HANDICAPE.length
+            console.log(DATA_DEMANDE_CAT)
+            PER_AMG1 = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[1].AMG1 / data.rows.length) * 100
+            PER_TMP = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[0].TMP / data.rows.length) * 100
+            PER_CARTE_HANDICAPE = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[3].CARTE_HANDICAPE / data.rows.length) * 100
+            PER_AMG2 = data.rows.length == 0  ? 0:(DATA_DEMANDE_CAT[2].AMG2 / data.rows.length) * 100
+            DATA_PER_DEMANDE_CAT.push({TMP:PER_TMP})       
+            DATA_PER_DEMANDE_CAT.push({AMG1:PER_AMG1}) 
+            DATA_PER_DEMANDE_CAT.push({AMG2:PER_AMG2}) 
+            DATA_PER_DEMANDE_CAT.push({CARTE_HANDICAPE:PER_CARTE_HANDICAPE})   
+            STATISTICS_DEMANDE_CATEGORY.push(DATA_PER_DEMANDE_CAT)
+            STATISTICS_DEMANDE_CATEGORY.push(DATA_DEMANDE_CAT)
+            callback(null,STATISTICS_DEMANDE_CATEGORY)
+        }
+    })
 }
 
 
+function STATISTICS(callback){
+   const ALL_DATA = {
+        DATA_RECOUR:[],
+        DATA_PER_RECOURS:[],
+        DATA_PER_DEMANDE:[],
+        DATA_DEMANDE:[],
+        DATA_USER:[],
+        DATA_PER_USER:[]
+    }
+
+    RECOURS_ACCEPTED = []
+    RECOURS_REFUSED = []
+    RECOURS_ON_HOLD = []
+
+    connection.query(QUERY.STATISTICS_RECOURS,(err,data) =>{
+        if(err){
+            callback(err,null)
+        }else{
+            for(let Recours of data.rows){
+                if(Recours.Resultat == "Accepted"){
+                    RECOURS_ACCEPTED.push(Recours)
+                }else if(Recours.Resultat == "Refused"){
+                    RECOURS_REFUSED.push(Recours)
+                }else{
+                    RECOURS_ON_HOLD.push(Recours)
+                }
+            }
+            const perRefuse = data.rows.length === 0 ? 0 : (RECOURS_REFUSED.length / data.rows.length) * 100
+            const perAccept = data.rows.length === 0 ? 0 : (RECOURS_ACCEPTED.length / data.rows.length) * 100
+            const perHold = data.rows.length === 0 ? 0 : (RECOURS_ON_HOLD.length / data.rows.length) * 100
+            const N_REQUEST_RECOURS_ACCEPTED = RECOURS_ACCEPTED.length
+            const N_REQUEST_RECOURS_REFUS = RECOURS_REFUSED.length
+            const N_REQUEST_RECOURS_HOLD = RECOURS_ON_HOLD.length
+
+            console.log("----------------------STATISTICS RECOURS-----------------")
+            console.log('Percentage Des Demande Recours Accepter : '+perAccept)
+            console.log('Percentage Des Demande Recours Refuser'+perRefuse)
+            console.log('Percentage Des Demande Recours On Hold'+perHold)
+            console.log('n Accepter : '+N_REQUEST_RECOURS_ACCEPTED)
+            console.log('n Refuser : '+N_REQUEST_RECOURS_REFUS)
+            console.log('n on Hold : '+N_REQUEST_RECOURS_HOLD)
+            ALL_DATA.DATA_PER_RECOURS.push(perAccept)
+            ALL_DATA.DATA_PER_RECOURS.push(perRefuse)
+            ALL_DATA.DATA_PER_RECOURS.push(perHold)
+            ALL_DATA.DATA_RECOUR.push(N_REQUEST_RECOURS_ACCEPTED);
+            ALL_DATA.DATA_RECOUR.push(N_REQUEST_RECOURS_REFUS);
+            ALL_DATA.DATA_RECOUR.push(N_REQUEST_RECOURS_HOLD);
+            console.log('-----------------------------------------------------')
+
+            DEMANDE_ACCEPTER = []
+            DEMANDE_REFUSER = []
+            DEMAND_ON_HOLD = []
+
+            connection.query(QUERY.STATISTICS_DEMANDE,(err,data) =>{
+                if(err){
+                    callback(err,null)
+                }else{
+                    for(let Demande of data.rows){
+                        if(Demande.results == 'Refused'){
+                              DEMANDE_REFUSER.push(data.rows)
+                        }else if(Demande.results == 'Accepted'){
+                            DEMANDE_ACCEPTER.push(data.rows)
+                        }else{
+                            DEMAND_ON_HOLD.push(data.rows)
+                        }
+                    }
+                     const PER_DEMAND_ACCEPTER = data.rows.length === 0 ? 0 : (DEMANDE_ACCEPTER.length / data.rows.length) * 100
+                     const PER_DEMAND_REFUSER = data.rows.length === 0 ? 0 : (DEMANDE_REFUSER.length / data.rows.length) * 100
+                     const PER_DEMAND_ON_HOLD = data.rows.length === 0 ? 0 : (DEMAND_ON_HOLD.length / data.rows.length) * 100
+                     const NUMBER_DEMANDE_ACCEPTER = DEMANDE_ACCEPTER.length ;
+                     const NUMBER_DEMANDE_REFUSER =  DEMANDE_REFUSER.length;
+                     const NUMBER_DEMANDE_ON_HOLD = DEMAND_ON_HOLD.length;
+                     console.log('--------------STATISTIQUES DEMANDE------------------')
+                     console.log('Percentage Des Demande  Accepter : '+PER_DEMAND_ACCEPTER)
+                     console.log('Percentage Des Demande Refuser'+PER_DEMAND_REFUSER)
+                     console.log('Percentage Des Demande On Hold'+PER_DEMAND_ON_HOLD)
+                     console.log('n Accepter : '+NUMBER_DEMANDE_ACCEPTER)
+                     console.log('n Refuser : '+NUMBER_DEMANDE_REFUSER)
+                     console.log('n on Hold : '+NUMBER_DEMANDE_ON_HOLD)
+
+                     ALL_DATA.DATA_PER_DEMANDE.push(PER_DEMAND_ACCEPTER)
+                     ALL_DATA.DATA_PER_DEMANDE.push(PER_DEMAND_REFUSER)
+                     ALL_DATA.DATA_PER_DEMANDE.push(PER_DEMAND_ON_HOLD)
+                     ALL_DATA.DATA_DEMANDE.push(NUMBER_DEMANDE_ACCEPTER);
+                     ALL_DATA.DATA_DEMANDE.push(NUMBER_DEMANDE_REFUSER);
+                     ALL_DATA.DATA_DEMANDE.push(NUMBER_DEMANDE_ON_HOLD);
+
+                     connection.query(QUERY.STATISTICS_USERS,(err,data) => {
+                        if(err){
+                            callback(err,null)
+                        }else{
+                            arrayUnder18 = []
+                            arrayAbove18 = []
+                           for(const element of data.rows){
+                               if(new Date().getFullYear() - new Date(Date.parse(element.date_naissance)).getFullYear() <= 18){
+                                   arrayUnder18.push(element.date_naissance)
+                               }else{
+                                   arrayAbove18.push(element.date_naissance)
+                               }
+                           }
+                           console.log("----------------------STATISTICS USER-----------------")
+                           console.log(arrayAbove18.length)
+                           const perUnder18 = data.rows.length === 0 ? 0 : (arrayUnder18.length / data.rows.length) * 100 
+                           console.log('Per moins 18  : '+perUnder18)
+                           const perAbove18 = data.rows.length === 0 ? 0:(arrayAbove18.length / data.rows.length) * 100 
+                           console.log('per + 18'+perAbove18)
+
+                           ALL_DATA.DATA_PER_USER.push(perAbove18)
+                           ALL_DATA.DATA_PER_USER.push(perUnder18)
+                           ALL_DATA.DATA_USER.push(arrayAbove18.length);
+                           ALL_DATA.DATA_USER.push(arrayUnder18.length);
+                           console.log(ALL_DATA)
+                           callback(null,ALL_DATA)
+                       }
+                       })
+                }
+               
+            })
+        }
+        
+    })
+}
+
+function LOGIN_ADMIN(input,callback){
+connection.query(QUERY.LOGIN_ADMIN,[input.username,input.apiToken],(err,data) =>{
+    if(err){
+        console.log(err)
+         callback(err,null);
+    }else{
+        console.log(typeof callback)
+        callback(null,data.rows[0])
+    }
+})
+}
 
 module.exports = {
     FIND_USER_CREDENTIALS,
@@ -449,7 +677,11 @@ module.exports = {
     GET_ALL_RECOURS_DEMANDS_FOR_ADMIN,
     GET_DEMANDE_BY_ID,
     ACCEPT_RECOURS,
-    REFUSE_RECOURS
+    REFUSE_RECOURS,
+    LOGIN_ADMIN,
+    STATISTICS,
+    STATISTICS_PER_RECOURS_TYPE,
+    STATISTICS_PER_REQUEST_TYPE
     
 }
 

@@ -1,15 +1,7 @@
 const express = require('express');
 const app = express.Router();
-const file_system = require('fs');
 const DATABASE =require('../Database');
-const Emailer = require('../Mailer');
-const Encryption = require('../Encryption')
-const {LocalStorage} = require('node-localstorage')
-const cors = require('cors')
-const local = new LocalStorage("./scratch");
 require('dotenv').config({path:"../.config/Pointer.env"})
-const file_manager = require("../../Users/medhe/OneDrive/Bureau/PFE/routes/FileManager")
-local.setItem("SecretCode",Encryption.RANDOM_STRING().substring(0,8));
 
 app.post('/AfterLogin/getCredentialsFromLogin',(req,res) =>{
     DATABASE.GET_CREDENTIALS_AFTER_LOGIN({name:req.body.name,Last_name:req.body.ln},(err,results) =>{
@@ -29,6 +21,16 @@ app.post("/VerifyUser",(req, res) => {
        }else{
            res.json(results);
        
+       }
+    });
+   })
+
+   app.post("/Admin/VerifyUser",(req, res) => {
+    DATABASE.LOGIN_ADMIN(req.body,(err,results) =>{
+       if(err){
+           res.json(err);
+       }else{
+           res.json(results);
        }
     });
    })

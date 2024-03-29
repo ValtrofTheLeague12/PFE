@@ -2,6 +2,7 @@
 require('dotenv').config({path:"./.config/GoogleApi.env"})
 const file = require('fs');
 const google = require('googleapis');
+const shell = require('shelljs')
 
 const jwtAuthentification = new google.Auth.JWT({
     email:process.env.CLIENT_EMAIL,
@@ -19,20 +20,7 @@ jwtAuthentification.authorize((err)=>{
 });
  const googleDrive = google.google.drive({version:'v3',auth:jwtAuthentification})
 
- 
-async function RECOVER_FILE(){
-   return new Promise((reject,resolve) => {googleDrive.files.get({responseType:'stream',
-   fileId:process.env.FILE_ID,
-   parent:process.env.PARENT_ID},(err,data) =>{
-       if(err){
-        reject(err)
-       }else{
-        resolve(data)
-       }
-    }
-    )
-})    
-}
+
 
 async function SAVE_FILES(input){
  return await new Promise((reject,resolve) =>{

@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "@trufflesuite/uws-js-unofficial": "*",
     "axios": "^1.6.7",
     "body-parser": "^1.20.2",
     "convert-array-to-csv": "^2.0.0",
@@ -8,7 +10,9 @@
     "csvtojson": "^2.0.10",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
+    "ganache-cli": "^6.12.2",
     "googleapis": "^133.0.0",
+    "hardhat": "^2.22.2",
     "json2csv": "^6.0.0-alpha.2",
     "multer": "^1.4.5-lts.1",
     "ncrypt-js": "^2.0.0",
@@ -19,6 +23,8 @@
     "nodemon": "^3.0.3",
     "pg": "^8.11.3",
     "prom-client": "^15.1.0",
+    "truffle": "^5.11.5",
+    "web3": "^4.6.0",
     "winston": "^3.11.0",
     "xlsx": "^0.18.5",
     "xlsx-populate": "^1.21.0"
