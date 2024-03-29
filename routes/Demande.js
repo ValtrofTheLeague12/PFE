@@ -166,7 +166,39 @@ db.STATISTICS_PER_REQUEST_TYPE((err,data) =>{
      })
   }
 })  
+})
 
+app.post('/Info/Father',(req,res) =>{
+  db.GET_PARENTS_CIN(req.body,(err,data) => {
+   if(err){
+    console.log(err)
+     res.json({error:err})
+   }else{
+     res.json({results:data})
+   }
+  })
+ })
+ 
+ app.post('/Info/Mother', (req,res) =>{
+   db.GET_PARENTS_CIN(req.body,(err,data) => {
+     if(err){
+      console.log(err)
+       res.json({error:err})
+     }else{
+       res.json({results:data})
+     }
+    })
+ })
+
+app.post('/Info/GetAcceptedServicesWithID',(req,res) =>{
+  console.log(req.body)
+  db.GET_ACCEPTED_REQUESTS_WITH_ID(req.body,(err,data) =>{
+    if(err){
+      res.json({error:err})
+    }else{
+      res.json({results:data})
+    }
+  })
 })
 
 module.exports = {Demand:app}

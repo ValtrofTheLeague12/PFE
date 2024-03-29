@@ -35,7 +35,7 @@ const QUERY = {
      INSERT_NEW_DEMAND: `INSERT INTO "Demande" ("nom", "prenom", "cin", "date_naissance", "age", "handicap", "handicap_selected", "income", "category", "consultat", "disabilities", "disabilities_selected", "father_last_name", "father_name", "governorate", "job_type", "mother_last_name", "mother_name","number_of_kids", "spouse_last_name", "spouse_name", "files", "underaged","results","hash","date_of_starting","date_of_finishing","GardianFatherCIN","GardianMotherCIN","Description_en_cas_refus","Treated_By") 
                         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24,$25,$26,$27,$28,$29,$30,$31) RETURNING *`,
     ADMIN_SELECT_ALL_DEMANDS:`SELECT  * FROM "Demande"`,
-    SELECT_GARDIANS_CIN : `SELECT "cin" from "citoyen" where "nom" = $1 and prenom "$2"`,
+    SELECT_GARDIANS_CIN : `SELECT "cin" from "citoyen" where "nom" = $1 and "prenom" = $2`,
     MODIFY_DEMANDE_REFUS:`UPDATE "Demande" SET "date_of_starting" = 'Refused' , "date_of_finishing" = 'Refused' , "results" = 'Refused' , "Description_en_cas_refus" = $1 where "hash" = $2 RETURNING *`,
     MOODIFY_DEMANDE_ACCEPT:`UPDATE "Demande" SET "date_of_starting" = $1, "date_of_finishing" = $2 , "results" = 'Accepted', "Description_en_cas_refus" = 'Demande at The Moment Accepted not Refused' where "hash" = $3 RETURNING *`,
     GET_DEMANDS_WITH_CIN_OR_SOCIAL_ID:'SELECT * from "Demande" where "cin" = $1',
@@ -48,7 +48,8 @@ const QUERY = {
     STATISTICS_RECOURS:`SELECT * FROM "Recours"`,
     STATISTICS_DEMANDE:`SELECT * FROM "Demande"`,
     STATISTICS_USERS:`SELECT "date_naissance" from "citoyen"`,
-    LOGIN_ADMIN:'SELECT * FROM "Admin" WHERE "username" = $1 and "apitoken" = $2'
+    LOGIN_ADMIN:'SELECT * FROM "Admin" WHERE "username" = $1 and "apitoken" = $2',
+    GET_ACCEPTED_REQUESTS_WITH_ID:`SELECT * FROM "Demande" WHERE "cin" = $1 AND "results" = 'Accepted'`
     
 };
 

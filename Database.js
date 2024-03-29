@@ -423,10 +423,11 @@ connection.query(QUERY.INSERT_NEW_RECOURS,[input.id_demande,input.name,input.las
 }
 
 function GET_PARENTS_CIN(input,callback){
-    connection.query(QUERY.SELECT_GARDIANS_CIN,[input.name,input.lastname],(err,data) =>{
+    connection.query(QUERY.SELECT_GARDIANS_CIN,[input.nom,input.prenom],(err,data) =>{
         if(err){
             callback(err,null)
         }else{
+             console.log(data)
             callback(null,data.rows[0])
         }
     })
@@ -655,6 +656,17 @@ connection.query(QUERY.LOGIN_ADMIN,[input.username,input.apiToken],(err,data) =>
     }
 })
 }
+function GET_ACCEPTED_REQUESTS_WITH_ID(input,callback){
+connection.query(QUERY.GET_ACCEPTED_REQUESTS_WITH_ID,[input.id],(err,data) =>{
+    if(err){
+        callback(err,null)
+    }else{
+        console.log(data.rows.category)
+        callback(null,data.rows)
+    }
+})
+
+}
 
 module.exports = {
     FIND_USER_CREDENTIALS,
@@ -681,7 +693,8 @@ module.exports = {
     LOGIN_ADMIN,
     STATISTICS,
     STATISTICS_PER_RECOURS_TYPE,
-    STATISTICS_PER_REQUEST_TYPE
+    STATISTICS_PER_REQUEST_TYPE,
+    GET_ACCEPTED_REQUESTS_WITH_ID
     
 }
 
