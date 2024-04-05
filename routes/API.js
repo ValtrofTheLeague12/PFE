@@ -71,7 +71,6 @@ app.post('/API2',(req,res) =>{
     console.log(req.body)
     if(err){
         res.json(err);
-        console.log(err);
     }else if(results.rows.length != 0){  
               let gender = results.rows[0].genre == "Male" ? 1:0;
               let date = new Date(results.rows[0].date_naissance);

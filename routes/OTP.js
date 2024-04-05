@@ -1,14 +1,9 @@
 const express = require('express');
 const app = express.Router();
-const file_system = require('fs');
-const DATABASE =require('../Database');
 const Emailer = require('../Mailer');
-const Encryption = require('../Encryption')
 const {LocalStorage} = require('node-localstorage')
-const cors = require('cors')
 const local = new LocalStorage("./scratch");
 require('dotenv').config({path:"../.config/Pointer.env"})
-const file_manager = require("../../Users/medhe/OneDrive/Bureau/PFE/routes/FileManager");
 const { randomUUID } = require('crypto');
 let array = []
 

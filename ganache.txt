@@ -1,0 +1,90 @@
+Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+
+Available Accounts
+==================
+(0) 0x8280c65E138239b8d3C83ad5e2F31f66078A11fd (100 ETH)
+(1) 0xcaC35E4ea104943f34F799cca4c571f95Fd03dAb (100 ETH)
+(2) 0xa5429da1102E969f4eBF7Ac08dFFBC84aE13E0B6 (100 ETH)
+(3) 0xaE4bE2b29127A33268334eEd843a359Ed14782a5 (100 ETH)
+(4) 0x191d665aD9D08715dD6E6cBb784165B5ee350706 (100 ETH)
+(5) 0xC3Ca680bCdAd074bC45BFbeD6dd75221dC3BB36A (100 ETH)
+(6) 0x8a9E572A1f4EfCC7499c413F71c7b70238b80733 (100 ETH)
+(7) 0x5BB916B6a8554605b2d1F10a760BACE98468e019 (100 ETH)
+(8) 0x26a3CdCEd943d7Db6e3dB7CdB781138F6bc27955 (100 ETH)
+(9) 0x545442aFABB76E8c272e2687430eA82cEFD01846 (100 ETH)
+
+Private Keys
+==================
+(0) 0xf5ac55cd6a3cd2ea7ab6fd14fe67e675200ee1aa80457ca020cda6c899751f9a
+(1) 0xcd8ac1f15b07fbd149ac85a5aa6261183f5fc847cad1ef05ebdb275cc36bee11
+(2) 0x036ea6e7206405966d67174be4c39bbfe68ac63218acdab81853373857cbde29
+(3) 0xdb2258ecb96f48e5a4fe0ab4992f123e178745e8aa74fc0c94f4533565af89f1
+(4) 0x47aea35d9cac3794f293a2507db3165dfedfe5980ec564694d8dbc1b7537ce97
+(5) 0xb08b28928caf42b4f69a66dfe42e5eda33238e7b7a00ccc2331930ff210ecf9e
+(6) 0x0ef0620d53153bfc5061d9e2c9128bdd3104a4ae42a966882a76b7ca38128850
+(7) 0x59be311734aa8fe52ac0d4cfb37b485350e9c5baf1a53d2127b4ad85a6e7b028
+(8) 0x8655e362b46e239530a3bf617134832d50f35329aee9b4509e0b8cafc65dcebe
+(9) 0xf26300e3a3a7910e417dccd70f45f57b97fdca751c99fd673009df5d05ca2874
+
+HD Wallet
+==================
+Mnemonic:      rabbit normal opinion brisk trigger rent photo wonder disorder spend trick increase
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+
+Gas Price
+==================
+20000000000
+
+Gas Limit
+==================
+6721975
+
+Call Gas Limit
+==================
+9007199254740991
+
+Listening on 127.0.0.1:8545
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+net_version
+eth_getBlockByNumber
+eth_getBlockByNumber
+net_version
+eth_getBlockByNumber
+eth_estimateGas
+net_version
+eth_blockNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0x42ab720671857b7dc39a6a0d6d61309e8ccf2d854bdc8bff0110965ba69a4e90
+  Contract created: 0x557328970ea6bdc3af85057a88055b055f641a34
+  Gas usage: 860884
+  Block Number: 1
+  Block Time: Thu Apr 04 2024 04:35:10 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_blockNumber
+eth_sendTransaction
+
+  Transaction: 0x2dd1022e2667c93f9cb496075741e6a3a8262b274e3ebd4e78bc2a5763bded42
+  Gas usage: 239706
+  Block Number: 2
+  Block Time: Thu Apr 04 2024 04:35:20 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_getTransactionByHash
+eth_getTransactionByHash
+eth_getTransactionByHash
+Terminer le programme de commandes (O/N)�? 

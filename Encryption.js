@@ -1,8 +1,10 @@
 require('dotenv').config({path:"./.config/Encryptionkey.env"})
 const ALGORITHM = require('ncrypt-js');
-const hash = require('crypto-js')
+const hash = require('crypto-js');
+const crypto = require('crypto')
 
-function RANDOM_STRING(){
+console.log(RANDOM_STRING())
+ function RANDOM_STRING(){
     return hash.SHA256(crypto.randomUUID).toString();
 }
 

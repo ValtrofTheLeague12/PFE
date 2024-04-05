@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const client = require('prom-client')
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+const  {Blockchain} = require('./routes/cryptojs')
 const {API} = require('./routes/API')
 const {Emailer} = require('./routes/Emailer')
 const {Inscription} = require('./routes/inscription')
@@ -27,6 +27,7 @@ app.use('/inscription',Inscription)
 app.use('/Emailing',Emailer)
 app.use('/API',API)
 app.use('/Demande',Demand)
+app.use('/Blockchain',Blockchain)
 
 app.listen(2020, () => {
     console.log("Connected to Port 2020");

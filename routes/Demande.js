@@ -55,8 +55,6 @@ app.post('/Modify/Results/Failure',(req,res) =>{
     if(err){
       res.json({error:err})
     }else{
-      const ID = data.cin.substring(0,3)+'*****'
-      Logs.logs.info('new Demande Has Been Requested in '+new Date() + 'for User with ID : '+ID)
       res.json({"Modified":"true"})
     }
    })
@@ -67,8 +65,6 @@ app.post('/Modify/Results/Accept',(req,res) =>{
     if(err){
       res.json({erreur:err})
     }else{
-      const ID = data.cin.substring(0,3)+'*****'
-      Logs.logs.info('new Demande Has Been Accepted in '+new Date() + 'for User with ID : '+ID)
       res.json({results:data})
     }
   })
@@ -93,8 +89,6 @@ db.INSERT_NEW_RECOURS(req.body,(err,data) =>{
   if(err){
     res.json({error:err})
   }else{
-    const ID = data.ID.substring(0,3)+'*****'
-    Logs.logs.info('new Reapplication Has Been Accepted in '+new Date() + 'for User with ID : '+ID)
     res.json({data:'inserted...'})
   }
 })
@@ -105,8 +99,6 @@ app.post('/Modify/Recours/Results/Accept',(req,res) =>{
     if(err){
       res.json({error:err})
     }else{
-      const ID = data.cin.substring(0,3)+'*****'
-      Logs.logs.info('new Reapplication Has Been Accepted in '+new Date() + 'for User with ID : '+ID)
       res.json({
         results:data
       })
@@ -120,8 +112,6 @@ console.log(req.body)
       console.log(err)
       res.json({error:err})
     }else{
-      const ID = data.cin.substring(0,3)+'*****'
-      Logs.logs.info('new Reapplications Has Been Refused in '+new Date() + 'for User with ID : '+ID)
       res.json({results:data})
     }
   })

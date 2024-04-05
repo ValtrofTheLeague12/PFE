@@ -186,7 +186,11 @@ connection.query(QUERY.ADMIN_SELECT_ALL_DEMANDS,(err,data) =>{
           `<td>${new Date(Date.parse(Demand.date_submitted)).toISOString()}</td>`+
           `<td class ="text-muted">${Demand.date_of_starting}</td>`
           +`<td class ="text-muted">${Demand.date_of_finishing}</td>`+
-          `<td><button id = "actionAccept" class ="btn btn-outline-success" onclick = "ACC_DEMANDE(this)">Accept</button><button id = "actionRefuse" class ="btn btn-outline-danger" onclick = "REF_DEMANDE(this)">Refuse</button></td></tr>`)
+          `<td><button id = "actionAccept" class ="btn btn-outline-success" onclick = "
+          localStorage.setItem('cin',${Demand.cin})
+          ACC_DEMANDE(this)">Accept</button><button id = "actionRefuse" class ="btn btn-outline-danger" onclick = "
+          localStorage.setItem('cin',${Demand.cin})
+          REF_DEMANDE(this)">Refuse</button></td></tr>`)
         }else if(Demand.results === 'Accepted'){
             let cin = Demand.cin.substring(0,3)+"*****" 
             html += (`<tr><td>${Demand.hash}</td>`+`<td>${cin}</td>`+`<td>${Demand.nom}</td>`+
@@ -321,7 +325,8 @@ connection.query(QUERY.GET_RECOURS,(err,data) =>{
     for(let Demand of data.rows){
         console.log(Demand)
         if(Demand.Resultat === "on Hold..."){
-        html += `<tr>
+         html += `
+         <tr>
          <td>${Demand.Hash}</td>
          <td>${Demand.Nom}</td>`+
         `<td>${Demand.Prenom}</td>`+
@@ -665,7 +670,16 @@ connection.query(QUERY.GET_ACCEPTED_REQUESTS_WITH_ID,[input.id],(err,data) =>{
         callback(null,data.rows)
     }
 })
-
+}
+function SAVE_HASH_IN_DATABASE(input,callback){
+connection.query(QUERY.SAVE_HASH,[input.id_cit,input.hash],(err,data) =>{
+    if(err){
+        console.log(err)
+        callback(err,null)
+    }else{
+        callback(null,data.rows[0])
+    }
+})
 }
 
 module.exports = {
@@ -694,7 +708,8 @@ module.exports = {
     STATISTICS,
     STATISTICS_PER_RECOURS_TYPE,
     STATISTICS_PER_REQUEST_TYPE,
-    GET_ACCEPTED_REQUESTS_WITH_ID
+    GET_ACCEPTED_REQUESTS_WITH_ID,
+    SAVE_HASH_IN_DATABASE
     
 }
 
