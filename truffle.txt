@@ -17,15 +17,15 @@ Starting migrations...
 2_Demande_migration.js
 ======================
 
-   Deploying 'Demande'
+   Replacing 'Demande'
    -------------------
-   > transaction hash:    0xd9c6ef09a0aa3d5440c7b65841ce5b1a22943340f3ab4928f2b981c8a8ae774b
+   > transaction hash:    0xfdafdee04f081f42da96f64d328499582f22bb8d92f6174eb21e888bc49f1080
    > Blocks: 0            Seconds: 0
-   > contract address:    0xCACF1950F8d7aE1Ec5420A8424F8e54A3adBC1D1
-   > block number:        1
-   > block timestamp:     1712301212
+   > contract address:    0xD7eb556613966c6A5b0851b5FB948d2d60C9F9bA
+   > block number:        3
+   > block timestamp:     1712301593
    > account:             0x340653d33Ff0E36f0297559C3Fc88335B7CCA494
-   > balance:             99.98278232
+   > balance:             99.9611685
    > gas used:            860884 (0xd22d4)
    > gas price:           20 gwei
    > value sent:          0 ETH

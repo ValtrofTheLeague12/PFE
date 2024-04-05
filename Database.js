@@ -353,7 +353,7 @@ connection.query(QUERY.GET_RECOURS,(err,data) =>{
             DEMANDE(this)">${Demand.id_demande}</td>`+
            `<td>${Demand.additional_files}</td>`+
            `<td>${Demand.Recours_Service}</td>`+
-           `<td class = "text-muted">${Demand.Resultat}</td>`+
+           `<td class = "text-danger">${Demand.Resultat}</td>`+
            `<td>${Demand.Date_of_submission}</td>`+
            `<td><button class ="btn btn-outline-success" onclick ="SEND_SMS(this)">Send SMS Notifications</button></td></tr>`; 
         }else{
