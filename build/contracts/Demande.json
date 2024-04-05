@@ -8512,12 +8512,12 @@
     "1712297942307": {
       "events": {},
       "links": {},
-      "address": "0x58b96b42a5FDDBFe4d213d5c298ee1bB4c3cD7dd",
-      "transactionHash": "0xb9f34f935c88639f9dfcaf17eb20859a08566d7ee212db4887ec7aa1a3354cf6"
+      "address": "0x3b0A4AF6f1C6b1e47b4C62cFC650052Bd2ae0a13",
+      "transactionHash": "0xe20ece7fb577c73a9854e3bb923105b99a274999c02a2a11479f0c2f6c24962a"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-04-05T06:22:44.952Z",
+  "updatedAt": "2024-04-05T06:55:56.196Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
