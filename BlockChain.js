@@ -49,7 +49,6 @@ let gas = Number(transaction.gas)
 }
 
 function START_BLOCKCHAIN(callback){
-setTimeout(() => {
     shell.exec('npx ganache-cli > ganache.txt',{async:true});
     
     const DEPLOY_CONTRACT = shell.exec('npx truffle deploy > truffle.txt',{async:true});
@@ -65,8 +64,7 @@ setTimeout(() => {
     DEPLOY_CONTRACT.on('close', (code) => {
         console.log(`truffle deploy process exited with code ${code}`);
         callback("Ganashe Deployed && Truffle Deployed true")
-    });
-},1000); 
+    }); 
 }
 
 module.exports = {
