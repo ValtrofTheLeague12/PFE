@@ -1,5 +1,13 @@
 const shelljs = require('shelljs')
-function EXECUTE_PG_DUMP(){
- shelljs.exec('cd bash && pg_dump.bat')
+const cron = require('node-cron')
+function AUTOMATE(){
+ cron.schedule('*/15 * * * *',() => {
+    shelljs.exec('cd bash && git.bat',{async:true});
+    console.log("Pushed to Github")
+    shelljs.exec('pg_dump "postgres://postgres:root@localhost:5432/PFE" > PFE.sql',{async:true})
+    console.log("Database Backed !!!")
+ })
 }
-EXECUTE_PG_DUMP()
+module.exports = {
+    AUTOMATE
+}

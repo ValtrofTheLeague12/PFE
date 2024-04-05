@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const Batch = require('./Batch')
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -31,4 +33,5 @@ app.use('/Blockchain',Blockchain)
 
 app.listen(2020, () => {
     console.log("Connected to Port 2020");
+    Batch.AUTOMATE();
 });
