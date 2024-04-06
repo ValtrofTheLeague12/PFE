@@ -50,8 +50,8 @@ const QUERY = {
     STATISTICS_USERS:`SELECT "date_naissance" from "citoyen"`,
     LOGIN_ADMIN:'SELECT * FROM "Admin" WHERE "username" = $1 and "apitoken" = $2',
     GET_ACCEPTED_REQUESTS_WITH_ID:`SELECT * FROM "Demande" WHERE "cin" = $1 AND "results" = 'Accepted'`,
-    SAVE_HASH:'INSERT INTO "hash_transactions"("id_cit","hash") VALUES($1,$2) RETURNING *'
-    
+    SAVE_HASH:'INSERT INTO "hash_transactions"("id_cit","hash") VALUES($1,$2) RETURNING *',
+    GET_ADMINS:'SELECT "nom_admin","prenom_admin","Email" from "Admin"'
 };
 
 module.exports = {

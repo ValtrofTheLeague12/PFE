@@ -651,6 +651,16 @@ function STATISTICS(callback){
     })
 }
 
+function GET_ADMINS(callback){
+    connection.query(QUERY.GET_ADMINS,(err,data) => {
+        if(err){
+            callback(err,null)
+        }else{
+            callback(null,data.rows)
+        }
+    })
+}
+
 function LOGIN_ADMIN(input,callback){
 connection.query(QUERY.LOGIN_ADMIN,[input.username,input.apiToken],(err,data) =>{
     if(err){
@@ -710,7 +720,8 @@ module.exports = {
     STATISTICS_PER_RECOURS_TYPE,
     STATISTICS_PER_REQUEST_TYPE,
     GET_ACCEPTED_REQUESTS_WITH_ID,
-    SAVE_HASH_IN_DATABASE
+    SAVE_HASH_IN_DATABASE,
+    GET_ADMINS
     
 }
 

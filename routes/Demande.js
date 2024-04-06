@@ -17,6 +17,15 @@ app.post('/Insert',(req,res) =>{
   })
 })
 
+app.get('/Info/getAdmins',(req,res) => {
+  db.GET_ADMINS((err,data) => {
+    if(err){
+      res.json({error:err})
+    }else{
+      res.json({response:data})
+    }
+  })
+})
 app.post('/Info/getSpouseInfo',(req,res) =>{
   db.GET_SPOUSE_DATA(req.body,(err,data)  => {
     if(err){
