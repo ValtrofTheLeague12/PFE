@@ -311,6 +311,7 @@ connection.query(QUERY.MOODIFY_DEMANDE_ACCEPT,[input.date_of_starting,input.date
     if(err){
         callback(err,null)
     }else{
+        console.log(data.rows[0])
         callback(null,data.rows[0])
     }
 })
@@ -353,7 +354,7 @@ connection.query(QUERY.GET_RECOURS,(err,data) =>{
             DEMANDE(this)">${Demand.id_demande}</td>`+
            `<td>${Demand.additional_files}</td>`+
            `<td>${Demand.Recours_Service}</td>`+
-           `<td class = "text-danger">${Demand.Resultat}</td>`+
+           `<td class = "text-success">${Demand.Resultat}</td>`+
            `<td>${Demand.Date_of_submission}</td>`+
            `<td><button class ="btn btn-outline-success" onclick ="SEND_SMS(this)">Send SMS Notifications</button></td></tr>`; 
         }else{
@@ -366,7 +367,7 @@ connection.query(QUERY.GET_RECOURS,(err,data) =>{
             DEMANDE(this)">${Demand.id_demande}</td>`+
            `<td>${Demand.additional_files}</td>`+
            `<td>${Demand.Recours_Service}</td>`+
-           `<td class = "text-muted">${Demand.Resultat}</td>`+
+           `<td class = "text-danger">${Demand.Resultat}</td>`+
            `<td>${Demand.Date_of_submission}</td>`+
            `<td><button class ="btn btn-outline-danger" onclick ="SEND_SMS(this)">Send SMS Notifications</button></td></tr>`;
         }
@@ -400,7 +401,7 @@ connection.query(QUERY.ACCEPT_RECOURS,[input.date_of_starting,input.date_of_endi
             if(err){
                 callback(err,null);
             }else{
-                callback(null,data.rows[0])
+                callback(null,data.rows)
             }
         })
     }
