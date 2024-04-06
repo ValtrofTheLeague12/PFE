@@ -18,7 +18,10 @@ app.post('/EMAIL/CORDS', (req, res) => {
     res.status(500).json({ error: 'Failed to send email' });
   }
 });
+app.post('/Email/SendR',(req,res) => {
+  Emailer.SEND_EMAIL(`Reporting issue ${req.body.issue}`,`Description : <br> ${req.body.Description}`,req.body.Email)
 
+})
 app.post('/SMS/CORDS', (req, res) => {
   try {
     const { Username, Password, UUID, Email, Phone } = req.body;
