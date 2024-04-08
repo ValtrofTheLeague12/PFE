@@ -348,3 +348,41 @@ eth_sendTransaction
 eth_getTransactionReceipt
 eth_blockNumber
 eth_getTransactionByHash
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_blockNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0x7d52de0389c3f62882b21ee9ae0840c3d19febe765a9e045caffa3e42cd1235c
+  Contract created: 0x7552af4800f25d7ed5a73ba190fc229293bee7ca
+  Gas usage: 860884
+  Block Number: 13
+  Block Time: Sun Apr 07 2024 15:15:50 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_blockNumber
+eth_sendTransaction
+
+  Transaction: 0x9dee3507f6f89e826daf7e4567179296851b3d6d2a9cebfed04de2fb492d4d6b
+  Gas usage: 239886
+  Block Number: 14
+  Block Time: Sun Apr 07 2024 15:16:17 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_getTransactionByHash
