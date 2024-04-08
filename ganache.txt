@@ -136,3 +136,172 @@ eth_getCode
 eth_getTransactionByHash
 eth_getBlockByNumber
 eth_getBalance
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_blockNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0xd286ea485854b386b9ae05887fa30b6554be7c0d6203059e348469a24001042d
+  Contract created: 0x50d756bea44ea647bf04852f0cb818af9347da3e
+  Gas usage: 860884
+  Block Number: 5
+  Block Time: Mon Apr 08 2024 23:16:34 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_blockNumber
+eth_sendTransaction
+
+  Transaction: 0xc69762915cbcb29c80b0c423d7b383e7d49756a77daa4e35cf12010114499b1c
+  Gas usage: 239778
+  Block Number: 6
+  Block Time: Mon Apr 08 2024 23:17:05 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_blockNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0x2915330f9709a056443cddd0521357ee83567a7f6df0b9a526950e1783bb0908
+  Contract created: 0xd012b087263382a6477128a37b3c3ee9339bfef9
+  Gas usage: 860884
+  Block Number: 7
+  Block Time: Mon Apr 08 2024 23:18:58 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_blockNumber
+eth_sendTransaction
+
+  Transaction: 0x66024d89d7a6b98e364435aaca4b7bf881e5f25375eeae41e0995fa8e3367b89
+  Gas usage: 239778
+  Block Number: 8
+  Block Time: Mon Apr 08 2024 23:19:30 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_getTransactionByHash
+eth_getTransactionByHash
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_blockNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0xaa1268d618abec101713bcc01f0464c0dc39b078533b354261929405fbe4d044
+  Contract created: 0xfd8fbbae7eb25a8ea984fc2f260c7543ded76f12
+  Gas usage: 860884
+  Block Number: 9
+  Block Time: Mon Apr 08 2024 23:23:16 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_blockNumber
+eth_sendTransaction
+
+  Transaction: 0xa9f340c9f8e3b3b543b9cad4cdf51e3e26ab4162d93479e1536ecb8baf3e0cd9
+  Gas usage: 239778
+  Block Number: 10
+  Block Time: Mon Apr 08 2024 23:23:48 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_blockNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0x335ff6b52ba39d41f13d18706b22b2aa905349e8b4e71dc7e37f948b0095c161
+  Contract created: 0xe2a37997f2c8e524b6a203bff44520cc331701cf
+  Gas usage: 860884
+  Block Number: 11
+  Block Time: Mon Apr 08 2024 23:24:51 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_getTransactionByHash
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_blockNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0x8480b19e2d8b34e7eedd729d09d9fdf5c27f0736cabb222ed3bac54c3e0bd201
+  Contract created: 0x6b0c35199a7b11747a2b0fb3fc0d8e8303d99a5d
+  Gas usage: 860884
+  Block Number: 12
+  Block Time: Mon Apr 08 2024 23:26:21 GMT+0200 (heure d’été d’Europe centrale)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
+eth_getTransactionByHash
