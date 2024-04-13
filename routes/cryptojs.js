@@ -56,6 +56,7 @@ app.post('/crypto/SaveHash',async (req,res) =>{
     
 })
 app.post('/crypto/getTransaction',(req,res) => {
+    console.log(req.body)
     Blockchain.GET_DATA_BY_TRANSACTION(req.body.hash,(err,data) => {
         if(err){
               res.json({error:err})

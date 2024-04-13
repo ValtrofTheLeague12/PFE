@@ -10,6 +10,7 @@ function AUTOMATE(){
  })
  return cronJob
 }
+
 module.exports = {
     AUTOMATE
 }
